@@ -4,4 +4,5 @@ env: flex
 runtime_config:
   python_version: 3.7
 
-
+readiness_check:
+  app_start_timeout_sec: 300
