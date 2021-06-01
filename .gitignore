@@ -3,6 +3,14 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Redundant .py files
+app.py
+feat_explore.py
+nltkmodules.py
+receptiveness.py
+static/
+templates/
+
 # C extensions
 *.so
 
