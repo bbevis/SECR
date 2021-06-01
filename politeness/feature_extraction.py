@@ -5,11 +5,27 @@ import prep
 import spacy
 import en_core_web_sm
 import re
+import numpy as np
+
 
 nlp = en_core_web_sm.load()
+nlp.enable_pipe("senter")
 
+def sentence_split(doc):
 
-def count_matches(keywords, text):
+	# doc = nlp(text)
+	sentences = [str(sent) for sent in doc.sents]
+	sentences = [' ' + prep.prep_simple(str(s)) + ' ' for s in sentences]
+
+	return sentences
+
+def sentence_pad(doc):
+
+	sentences = sentence_split(doc)
+
+	return ''.join(sentences)
+
+def count_matches(keywords, doc):
 
 	"""
 	For a given piece of text, search for the number if keywords from a prespecified list
@@ -21,6 +37,11 @@ def count_matches(keywords, text):
 	Outputs:
 		Counts of keyword matches
 	"""
+
+	
+	text = sentence_pad(doc)
+
+	#print(text)
 
 	key_res = []
 	phrase2_count = []
@@ -51,7 +72,8 @@ def count_matches(keywords, text):
 def get_dep_pairs(doc):
 
 	"""
-	Uses spaCy to find list of dependency pairs from text
+	Uses spaCy to find list of dependency pairs from text.
+	Performs negation handling where by any dependency pairs related to a negated term is removed
 
 	Input:
 		Text
@@ -61,6 +83,9 @@ def get_dep_pairs(doc):
 	"""
 
 	dep_pairs = [[token.dep_, token.head.text, token.head.i, token.text, token.i] for token in doc]
+
+	#print(dep_pairs)
+
 	negations = [dep_pairs[i] for i in range(len(dep_pairs)) if dep_pairs[i][0] == 'neg']
 
 	dep_pairs2 = []
@@ -69,30 +94,24 @@ def get_dep_pairs(doc):
 		for i in range(len(negations)):
 			for j in range(len(dep_pairs)):
 
-				if negations[i][1] != dep_pairs[j][1] and negations[i][2] != dep_pairs[j][2] and dep_pairs[j][0] not in ['ROOT','neg']:
-					dep_pairs2.append([dep_pairs[j][0], dep_pairs[j][1], dep_pairs[j][3]])
+				if negations[i][2] != dep_pairs[j][2] and dep_pairs[j] not in dep_pairs2:
+					dep_pairs2.append(dep_pairs[j])
+	
 	else:
-		for j in range(len(dep_pairs)):
+		dep_pairs2 = dep_pairs.copy()
 
-			# When there are no negations, just remove all root
-			if dep_pairs[j][0] != 'ROOT':
-				dep_pairs2.append([dep_pairs[j][0], dep_pairs[j][1], dep_pairs[j][3]])
+	dep_pairs2 = [[dep_pairs2[i][0], dep_pairs2[i][1], dep_pairs2[i][3]] for i in range(len(dep_pairs2))]
 
-	return dep_pairs2
+	return dep_pairs2, negations
 
 def get_dep_pairs_noneg(doc):
 
-	dep_pairs = [[token.dep_, token.head.text, token.head.i, token.text, token.i] for token in doc]
+	"""
+	No negation is done as we are only searching 'hits'
+	"""
+	return [[token.dep_, token.head.text, token.text] for token in doc]
 
-	dep_pairs2 = []
-	for j in range(len(dep_pairs)):
-
-		if dep_pairs[j][0] != 'ROOT':
-			dep_pairs2.append([dep_pairs[j][0], dep_pairs[j][1], dep_pairs[j][3]])
-
-	return dep_pairs2
-
-def count_spacy_matches(keywords, dep_pairs, dep_pairs_noneg):
+def count_spacy_matches(keywords, dep_pairs):
 
 	"""
 	When searching for key words are not sufficient, we may search for dependency pairs.
@@ -110,25 +129,19 @@ def count_spacy_matches(keywords, dep_pairs, dep_pairs_noneg):
 	phrase2_count = []
 
 	for key in keywords:
-
-		if key == 'Disagreement':
-
-			dep_pairs_final = dep_pairs_noneg.copy()
-		else:
-			dep_pairs_final = dep_pairs.copy()
-
+		#print(key)
 
 		key_res.append(key)
 		counter = 0
 
-		check = any(item in dep_pairs_final for item in keywords[key])
+		check = any(item in dep_pairs for item in keywords[key])
 		if check == True:
-
+			
 			for phrase in keywords[key]:
 
-				if phrase in dep_pairs_final:
-					
-					for dep in dep_pairs_final:
+				if phrase in dep_pairs:
+
+					for dep in dep_pairs:
 
 						if phrase == dep:
 
@@ -145,7 +158,7 @@ def token_count(doc):
 	# Counts number of words in a text string
 	return len([token for token in doc])
 
-def bare_command(text):
+def bare_command(doc):
 
 	"""
 	Check the first word of each sentence is a verb AND is contained in list of key words
@@ -153,43 +166,44 @@ def bare_command(text):
 	Output: Count of matches
 	"""
 
-	keywords = set(['be', 'do', 'please', 'have', 'thank', 'hang', 'let'])
+	keywords = set([' be ', ' do ', ' please ', ' have ', ' thank ', ' hang ', ' let '])
 
-	nlp.enable_pipe("senter")
-	doc = nlp(text)
+	#nlp.enable_pipe("senter")
+	#doc = nlp(text)
 
 	# Returns first word of every sentence along with the corresponding POS
-	first_words = [str(sent[0]) for sent in doc.sents]
-	POS_fw = [sent[0].pos_ for sent in doc.sents]
+	first_words = [' ' + prep.prep_simple(str(sent[0])) + ' ' for sent in doc.sents]
 
-	# clean text
-	first_words = [prep.prep_simple(str(fw)) for fw in first_words]
+	POS_fw = [sent[0].tag_ for sent in doc.sents]
 
 	# returns word if word is a verb and in list of keywords
-	first_words = [b for a, b in zip(POS_fw, first_words) if a == 'VERB' and b not in keywords]
+	bc = [b for a, b in zip(POS_fw, first_words) if a == 'VB' and b not in keywords]
 
-	return len(first_words)
+	return len(bc)
 
 
-def WHQuestion(doc):
+def Question(doc):
 
 	"""
 	Counts number of prespecified question words
 	"""
 
-	keywords = set(["who","what","where","when","why","how","which"])
+	keywords = set([' who ',' what ',' where ',' when ',' why ',' how ',' which '])
+	tags = set(['WRB', 'WP', 'WDT'])
 
-	words = [str(token) for token in doc]
-	words = [i for i in words if i in keywords]
+	# doc = nlp(text)
+	sentences = [str(sent) for sent in doc.sents if '?' in str(sent)]
+	#sentences = [s for s in sentences if '?' in s]
+	all_qs = len(sentences)
 
-	return len(words)
+	n = 0
+	for i in range(len(sentences)):
+		whq = [token.tag_ for token in nlp(sentences[i]) if token.tag_ in tags]
 
-def YesNoQuestions(text, whq):
+		if len(whq) > 0:
+			n += 1
 
-	"""
-	Counts number of question marks and subtracts number of key question words
-	"""
-	return text.count("?") - whq
+	return all_qs - n, n
 
 def word_start(keywords, doc):
 
@@ -200,19 +214,32 @@ def word_start(keywords, doc):
 	key_res = []
 	phrase2_count = []
 
+	# doc = nlp(text)
+
 	for key in keywords:
 
-		first_words = [str(sent[0]) for sent in doc.sents]
-		first_words = [prep.prep_simple(str(fw)) for fw in first_words]
-
+		first_words = [' ' + prep.prep_simple(str(sent[0])) + ' ' for sent in doc.sents]
+		#first_words = [prep.prep_simple(str(fw)) for fw in first_words]
 		cs = [w for w in first_words if w in keywords[key]]
+
 		phrase2_count.append(len(cs))
 		key_res.append(key)
-
 	
 	res = pd.DataFrame([key_res, phrase2_count], index = ['Features', 'Counts']).T
-
 	return res
+
+def adverb_limiter(keywords, doc):
+
+	"""
+	Search for tokens that are advmod and in the prespecifid list of words
+	"""
+
+	tags = [token.dep_ for token in doc if token.dep_ == 'advmod' and
+	str(' ' + str(token) + ' ') in keywords['Adverb_Limiter']]
+
+	return len(tags)
+
+
 
 
 def feat_counts(text, kw):
@@ -230,37 +257,51 @@ def feat_counts(text, kw):
 		Feature counts
 	"""
 
+	text = re.sub('(?<! )(?=[.,!?()])|(?<=[.,!?()])(?! )', r' ', text)
+	text = text.lstrip()
+	#print(text)
 	clean_text = prep.prep_simple(text)
+	#print(clean_text)
+	doc_text = nlp(text)
+	doc_clean_text = nlp(clean_text)
 
-	doc = nlp(clean_text)
-	
 	# Count key words and dependency pairs with negation
-	kw_matches = count_matches(kw['word_matches'], clean_text)
+	kw_matches = count_matches(kw['word_matches'], doc_text)
 
-	dep_pairs = get_dep_pairs(doc)
-	dep_pairs_noneg = get_dep_pairs_noneg(doc)
-	dep_pairs = count_spacy_matches(kw['spacy_pos'], dep_pairs, dep_pairs_noneg)
+	dep_pairs, negations = get_dep_pairs(doc_clean_text)
+	dep_pair_matches = count_spacy_matches(kw['spacy_pos'], dep_pairs)
+
+	dep_pairs_noneg = get_dep_pairs_noneg(doc_clean_text)
+	disagreement = count_spacy_matches(kw['spacy_noneg'], dep_pairs_noneg)
+
+
+	neg_dp = set([' ' + i[1] + ' ' for i in negations])
+	neg_only = count_spacy_matches(kw['spacy_neg_only'], neg_dp)
+
 
 	# count start word matches like conjunctions and affirmations
-	start_matches = word_start(kw['word_start'], doc)
+	start_matches = word_start(kw['word_start'], doc_text)
 
-	scores = pd.concat([kw_matches, dep_pairs, start_matches])
+	scores = pd.concat([kw_matches, dep_pair_matches, disagreement, start_matches, neg_only])
 	scores = scores.groupby('Features').sum().sort_values(by = 'Counts', ascending = False)
 	scores = scores.reset_index()
 
+
 	# add remaining features
-	bc = bare_command(text)
+	bc = bare_command(doc_text)
 	scores.loc[len(scores)] = ['Bare_Command', bc]
 
-	# whq = WHQuestion(doc)
-	# scores.loc[len(scores)] = ['WH_Questions', whq]
+	ynq, whq = Question(doc_text)
 
-	ynq = len(scores['Counts'][scores['Features'] == 'WH_Questions'])
 	scores.loc[len(scores)] = ['YesNo_Questions', ynq]
+	scores.loc[len(scores)] = ['WH_Questions', whq]
+
+	adl = adverb_limiter(kw['spacy_tokentag'], doc_text)
+	scores.loc[len(scores)] = ['Adverb_Limiter', adl]
 
 	scores = scores.sort_values(by = 'Counts', ascending = False)
 
-	tokens = token_count(doc)
+	tokens = token_count(doc_text)
 	scores.loc[len(scores)] = ['Token_count', tokens]
 
 	return scores
@@ -270,10 +311,11 @@ def feat_counts(text, kw):
 if __name__ == '__main__':
 
 	UPLOAD_FOLDER	 = '../Data/In/'
-	FOLDERS_IN 	 = ['word_matches', 'spacy_pos', 'spacy_neg', 'word_start']
+	FOLDERS_IN 	 = ['word_matches', 'spacy_pos', 'spacy_noneg',  'spacy_neg_only', 'word_start', 'spacy_tokentag']
 
-	text = 'yes I agree, it is letting a woman decide for herself what is best for her.  If she wants to be a stay at home mom, at least she made the choice for herself.  And while I agree that in a perfect world, women and men would have equal footing being hired, that is never the case.  Women are taught to be submissive, to be accepting of all outcomes, to not be advocates for themselves, especially in the workforce.  Women need the extra boost to be hired in STEM fields so children can see that they really can do and be anything they want.'
+	text = 'While our opinions are at odds at the expediency at which this should occur, we both agree that the perpetrator should be removed.'
 	# kw is a dictionary of all key words, dependency pairs and negation words
+	#print(text)
 	kw = prep.load_saved_data(UPLOAD_FOLDER, FOLDERS_IN)
 	scores = feat_counts(text, kw)
 	print(scores)

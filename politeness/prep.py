@@ -2,6 +2,9 @@ import os
 import regex
 import re
 import pickle
+# import en_core_web_sm
+# nlp = en_core_web_sm.load()
+# nlp.enable_pipe("senter")
 
 #import nltk
 #from nltk.corpus import stopwords
@@ -143,11 +146,11 @@ def clean_text(text):
 
 	orig = ["let's", "i'm", "won't", "can't", "shan't", "'d",
 	"'ve", "'s", "'ll", "'re", "n't", "u.s.a.", "u.s.", "e.g.", "i.e.",
-	"‘", "’", "“", "”"]
+	"‘", "’", "“", "”", "100%", "  ", "mr.", "mrs."]
 
 	new = ["let us", "i am", "will not", "cannot", "shall not", " would",
 	" have", " is", " will", " are", " not", "usa", "usa", "eg", "ie",
-	"'", "'", '"', '"']
+	"'", "'", '"', '"', "definitely", " ", "mr", "mrs"]
 
 	for i in range(len(orig)):
 		text = text.replace(orig[i], new[i])
@@ -160,8 +163,8 @@ def prep_simple(text):
 
 	t = text.lower()
 	t = clean_text(t)
-	t = re.sub('[^A-Za-z]', ' ', t)
-	t = ' ' + t + ' '
+	t = re.sub(r"[.?!]+\ *", "", t) # spcifially replace punctuations with nothing
+	t = re.sub('[^A-Za-z,]', ' ', t) # all other special chracters are replaced with blanks
 
 	return t
 
@@ -178,6 +181,7 @@ def prep_whole(text):
 	text = ' '.join(words)
 
 	return text
+
 
 def sentenciser(text):
 	
@@ -250,8 +254,8 @@ if __name__ == '__main__':
 
 	PATH = '../Data/'
 	UPLOAD_FOLDER	 = '../Data/In/'
-	FOLDERS_IN 	 = ['word_matches', 'spacy_pos', 'spacy_neg', 'word_start']
-	READ_TYPE  = ['single', 'multiple', 'multiple', 'single']
+	FOLDERS_IN 	 = ['word_matches', 'spacy_pos', 'spacy_noneg',  'spacy_neg_only', 'word_start', 'spacy_tokentag']
+	READ_TYPE  = ['single', 'multiple', 'multiple', 'single', 'single', 'single']
 
 	commit_data(PATH, UPLOAD_FOLDER, FOLDERS_IN, READ_TYPE)
 
