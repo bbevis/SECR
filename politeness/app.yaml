@@ -6,3 +6,14 @@ runtime_config:
 
 readiness_check:
   app_start_timeout_sec: 300
+
+resources:
+  cpu: 1
+  memory_gb: 8
+  disk_size_gb: 10  
+
+entrypoint: gunicorn -b :$PORT main:app
+
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 8
