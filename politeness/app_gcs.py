@@ -9,7 +9,7 @@ import keywords
 # import spacy
 # import en_core_web_sm
 import json
-import requests
+# import requests
 import cgi
 import cgitb
 #from negspacy.negation import Negex
@@ -83,18 +83,18 @@ def get_main_response(top3):
 	top3_feats = [responses.fancy_responses[top3[i]]['fancy_name'] for i in range(len(top3))]
 	top3_examples = [responses.fancy_responses[top3[i]]['examples'] for i in range(len(top3))]
 	main_response = [a + ' ' + b for a, b in zip(top3_feats, top3_examples)]
-	main_response = ', '.join(main_response)
-	main_response = re.sub(r',', 'dna ', main_response[::-1], 1)[::-1]
+	# main_response = ', '.join(main_response)
+	# main_response = re.sub(r',', 'dna ', main_response[::-1], 1)[::-1]
 
 	return main_response
 
 def get_recognition(bottom3):
 
 	bottom3_feats = [responses.fancy_responses[bottom3[i]]['fancy_name'] for i in range(len(bottom3))]
-	recognition = ', '.join(bottom3_feats)
-	recognition = re.sub(r',', 'dna ', recognition[::-1], 1)[::-1]
+	# recognition = ', '.join(bottom3_feats)
+	# recognition = re.sub(r',', 'dna ', recognition[::-1], 1)[::-1]
 
-	return recognition
+	return bottom3_feats
 
 def feedback_text(main_response, recognition):
 
@@ -111,12 +111,20 @@ def extract_features(text):
 
 	scores = fe.feat_counts(text, kw)
 
-	top3, bottom3 = top_bottom3(scores)
-	main_response = get_main_response(top3)
-	recognition = get_recognition(bottom3)
-	feedback = feedback_text(main_response, recognition)
+	top, bottom = top_bottom3(scores)
+	improvement = get_main_response(top)
+	recognition = get_recognition(bottom)
+	#feedback = feedback_text(main_response, recognition)
 
-	jsondata = json.dumps({"message": feedback})
+	jsondata = json.dumps(
+		{
+		"r1": recognition[0],
+		"r2": recognition[1],
+		"r3": recognition[2],
+		"imp1": improvement[0],
+		"imp2": improvement[1],
+		"imp3": improvement[2]
+		})
 	delta = round(time.process_time() - start_time, 3)
 	print('Runtime: ', delta)
 
