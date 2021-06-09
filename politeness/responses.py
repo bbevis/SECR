@@ -1,4 +1,51 @@
+fancy_responses = {
+	'Agreement':
+		{'fancy_name': 'Agreement phrases',
+		'desc': 'were identified. These phrases suggest you are not an adversary.',
+		'examples': 'such as "I agree" and "you are right" to sugegst that is no conflict of opinions.'},
 
+	'Positive_Emotion':
+		{'fancy_name': 'Positive emotion phrases',
+		'desc': 'were identified. These phrases convey feelings of happiness and joy.',
+		'examples': 'such as "adore" or "happy" to help convey positive feelings.'},
+
+	'Reasoning': 
+		{'fancy_name': 'Reasoning words',
+		'desc': 'were identified. These phrases provide more information about your opinions to you audience.',
+		'examples': 'such as "because" or "explain" to provide more information and reduce chances of misunderstanding.'},
+
+	'Subjectivity':
+		{'fancy_name': 'Subjective phrases',
+		'desc': 'were identified. These phrases describe opinions, point-of-views and interpretations.',
+		'examples': 'such as "I believe" or "In my opinion" to help emphasise that others are not necessarily obliged to agree.'},
+
+	'Acknowledgement': 
+		{'fancy_name': 'Acknowledgement phrases',
+		'desc': 'were identified. These phrases demonstrate shared understanding and common ground.',
+		'examples': 'such as "I understand" or "I get" to help convey some common ground.'},
+
+	'Negation':
+		{'fancy_name': 'Negation words',
+		'desc': 'were identified. These phrases suggest that you are of the opposite opinion which can appear confrontational.',
+		'examples': 'such as "did not" or "will not" should be used as little as possible.'},
+
+	'Hedges':
+		{'fancy_name': 'Hedging words',
+		'desc': 'were identified. These phrases soften the tone and reduces the strength of your claims.',
+		'examples': 'such as "almost" or "maybe"'},
+
+	'Second_Person': 
+		{'fancy_name': 'Second person words',
+		'desc': 'were identified. These phrases reference and acknowledges your audience.',
+		'examples': 'such as "you" or "yourself"'},
+
+	'First_Person_Single':
+		{'fancy_name': 'First person words',
+		'desc': 'were identified. These phrases reference and acknowledges the speaker',
+		'examples': 'such as "myself" or "I"'}
+	}
+
+"""
 fancy_responses = {
 	'WH_Questions': {'fancy_name': 'question words', 'examples': 'such as how, why and where?'},
 	'Bare_Command': {'fancy_name': 'soft commands', 'examples': 'such as consider'},
@@ -39,3 +86,4 @@ fancy_responses = {
 	'YesNo_Questions': {'fancy_name': 'yes or no questions', 'examples': 'as opposed to who, where, what, and why questions'},
 	'Adverb_Limiter': {'fancy_name': 'words that limit a statement', 'examples': 'such as just or only'},
 	}
+	"""
