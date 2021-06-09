@@ -124,33 +124,32 @@ def extract_features(text):
 	recognition = get_recognition(recog_feats)
 
 
-	# jsondata = json.dumps(
-	# 	{
-	# 	"r1": recognition[0],
-	# 	"r2": recognition[1],
-	# 	"r3": recognition[2],
-	# 	"r4": recognition[3],
-	# 	"r5": recognition[4],
-	# 	"r6": recognition[5],
-	# 	"r7": recognition[6],
-	# 	"r8": recognition[7],
-	# 	"r9": recognition[8],
-	# 	"imp1": improvement[0],
-	# 	"imp2": improvement[1],
-	# 	"imp3": improvement[2]
-	# 	})
-	# delta = round(time.process_time() - start_time, 3)
-	# print('Runtime: ', delta)
+	jsondata = json.dumps(
+		{
+		"Acknowledgement": recognition[0],
+		"Agreement": recognition[1],
+		"Hedges": recognition[2],
+		"Negation": recognition[3],
+		"Positive_Emotion": recognition[4],
+		"Reasoning": recognition[5],
+		"Subjectivity": recognition[6],
+		"First_Person_Single": recognition[7],
+		"Second_Person": recognition[8],
+		"imp1": improvement[0],
+		"imp2": improvement[1],
+		"imp3": improvement[2]
+		})
+	delta = round(time.process_time() - start_time, 3)
+	print('Runtime: ', delta)
 
-	# return jsondata
+	return jsondata
 
 
 if __name__ == "__main__":
 
 	text = 'I\'m not quite sure I really understand sorry, but for me please could you let me know how you came to this way of thinking? Would you mind?'
-	# feedback = extract_features(text)
-	extract_features(text)
-	# print(feedback)
+	feedback = extract_features(text)
+	print(feedback)
 
 
 
