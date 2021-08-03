@@ -79,7 +79,7 @@ def get_dep_pairs(doc):
 		Text
 
 	Outputs:
-		Dependency pairs from next that do not have ROOT as the head token or is a negated term
+		Dependency pairs from text that do not have ROOT as the head token or is a negated term
 	"""
 
 	dep_pairs = [[token.dep_, token.head.text, token.head.i, token.text, token.i] for token in doc]
@@ -87,15 +87,23 @@ def get_dep_pairs(doc):
 	#print(dep_pairs)
 
 	negations = [dep_pairs[i] for i in range(len(dep_pairs)) if dep_pairs[i][0] == 'neg']
+	token_place = [dep_pairs[i][2] for i in range(len(dep_pairs)) if dep_pairs[i][0] == 'neg']
 
 	dep_pairs2 = []
 
-	if len(negations) > 0:
-		for i in range(len(negations)):
-			for j in range(len(dep_pairs)):
+	# if len(negations) > 0:
+	# 	for i in range(len(negations)):
+	# 		for j in range(len(dep_pairs)):
 
-				if negations[i][2] != dep_pairs[j][2] and dep_pairs[j] not in dep_pairs2:
-					dep_pairs2.append(dep_pairs[j])
+	# 			if negations[i][2] != dep_pairs[j][2] and dep_pairs[j] not in dep_pairs2:
+	# 				dep_pairs2.append(dep_pairs[j])
+
+	if len(negations) > 0:
+		
+		for j in range(len(dep_pairs)):
+
+			if dep_pairs[j][2] not in token_place and dep_pairs[j] not in dep_pairs2:
+				dep_pairs2.append(dep_pairs[j])
 	
 	else:
 		dep_pairs2 = dep_pairs.copy()
@@ -135,6 +143,8 @@ def count_spacy_matches(keywords, dep_pairs):
 		counter = 0
 
 		check = any(item in dep_pairs for item in keywords[key])
+
+
 		if check == True:
 			
 			for phrase in keywords[key]:
@@ -265,6 +275,13 @@ def feat_counts(text, kw):
 	doc_text = nlp(text)
 	doc_clean_text = nlp(clean_text)
 
+	# quick test to check what's being counted in Positive_Emotion
+	# t1 = [token for token in doc_clean_text]
+	# print(t1)
+	# for t in t1:
+	# 	if ' ' + str(t) + ' ' in kw['word_matches']['Positive_Emotion']:
+	# 		print(t)
+
 	# Count key words and dependency pairs with negation
 	kw_matches = count_matches(kw['word_matches'], doc_text)
 
@@ -274,10 +291,8 @@ def feat_counts(text, kw):
 	dep_pairs_noneg = get_dep_pairs_noneg(doc_clean_text)
 	disagreement = count_spacy_matches(kw['spacy_noneg'], dep_pairs_noneg)
 
-
 	neg_dp = set([' ' + i[1] + ' ' for i in negations])
 	neg_only = count_spacy_matches(kw['spacy_neg_only'], neg_dp)
-
 
 	# count start word matches like conjunctions and affirmations
 	start_matches = word_start(kw['word_start'], doc_text)
@@ -285,7 +300,6 @@ def feat_counts(text, kw):
 	scores = pd.concat([kw_matches, dep_pair_matches, disagreement, start_matches, neg_only])
 	scores = scores.groupby('Features').sum().sort_values(by = 'Counts', ascending = False)
 	scores = scores.reset_index()
-
 
 	# add remaining features
 	bc = bare_command(doc_text)
@@ -313,7 +327,7 @@ if __name__ == '__main__':
 	UPLOAD_FOLDER	 = '../Data/In/'
 	FOLDERS_IN 	 = ['word_matches', 'spacy_pos', 'spacy_noneg',  'spacy_neg_only', 'word_start', 'spacy_tokentag']
 
-	text = 'While our opinions are at odds at the expediency at which this should occur, we both agree that the perpetrator should be removed.'
+	text = 'I feel like there should be more regulations with guns. I feel that cops shouldn\'t be allowed to kill. Why can\'t they just injure the individual?'
 	# kw is a dictionary of all key words, dependency pairs and negation words
 	#print(text)
 	kw = prep.load_saved_data(UPLOAD_FOLDER, FOLDERS_IN)

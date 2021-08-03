@@ -12,8 +12,6 @@ import json
 # import requests
 import cgi
 import cgitb
-#from negspacy.negation import Negex
-
 
 #--- VARS ---#
 PATH = '../Data/'
@@ -24,12 +22,12 @@ ALLOWED_EXTENSIONS = set(['.txt'])
 FOLDERS_IN 	 = ['word_matches', 'spacy_pos', 'spacy_noneg', 'spacy_neg_only', 'word_start', 'spacy_tokentag']
 READ_TYPE  = ['single', 'multiple', 'multiple', 'single', 'single', 'single']
 
-main_features = ['Acknowledgement', 'Agreement', 'Hedges', 'Negation', 'Positive_Emotion', 'Reasoning', 'Subjectivity', 'First_Person_Single', 'Second_Person']
-thresholds = [0, 1, 2, 2, 3, 0, 1, 2, 1]
+main_features = ['Acknowledgement', 'Agreement', 'Hedges', 'Negation', 'Positive_Emotion', 'Reasoning', 'Subjectivity', 'Adverb_Limiter', 'Second_Person']
+main_features_pos = ['Acknowledgement', 'Agreement', 'Hedges', 'Positive_Emotion', 'Subjectivity', 'Second_Person']
+main_features_neg = ['Negation', 'Reasoning', 'Adverb_Limiter']
+#thresholds = [0, 1, 1, 2, 3, 0, 1, 0, 1]
+thresholds = [0.0, 1.1, 1.4, 1.4, 2.9, 0.0, 0.0, 0.0, 0.0]
 
-cgitb.enable()
-form = cgi.FieldStorage()
-#text = form['text'].value 
 
 # nlp = en_core_web_sm.load()
 
@@ -77,15 +75,17 @@ def top_bottom_feats(scores):
 	scores = pd.merge(scores, cutoffs, left_on = 'Features', right_on='main_features', how = 'left')
 	
 
-	scores['diff'] = scores['Counts'] - scores['thresholds']
+	scores['diff'] = scores['Counts_norm'] - scores['thresholds']
 	scores = scores.sort_values('diff')
 
-	imp_feats = list(scores['Features'][:3])
+	# imp_feats = list(scores['Features'])
 	#bottom3 = list(scores['Features'][-3:])
 
-	recog_feats = scores['Features'][scores['Counts'] > 0]
+	# recog_feats = scores['Features'][scores['Counts'] > 0]
 
-	return imp_feats, recog_feats
+	# print(imp_feats)
+
+	return scores
 
 def get_main_response(imp_feats):
 
@@ -112,32 +112,70 @@ def get_recognition(recog_feats):
 
 	return main_response
 
+def get_feedback(scores):
+
+	"""
+	Returns a list of responses for the recognition features if in recog_feats list
+	otherwise returns a response from the improvment list
+	"""
+
+	# feedback = [responses.fancy_responses[i]['recog'] if i in recog_feats else responses.fancy_responses[i]['imp'] for i in main_features]
+
+	feedback = []
+
+	for i in main_features:
+		diff = scores['diff'].loc[scores['Features'] == i].to_list()[0]
+		if i in main_features_pos and diff <= 0:
+			feedback.append(responses.fancy_responses[i]['imp'])
+		elif i in main_features_pos and diff > 0:
+			feedback.append(responses.fancy_responses[i]['recog'])
+		elif i in main_features_neg and diff > 0:
+			feedback.append(responses.fancy_responses[i]['recog'])
+		elif i in main_features_neg and diff <= 0:
+			feedback.append(responses.fancy_responses[i]['imp'])
+
+	return feedback
+
+def normalise_scores(scores):
+
+	"""
+	Divides feature counts by 100 words/tokens
+	"""
+
+	token_count = list(scores['Counts'][scores['Features'] == 'Token_count'])[0]
+	scores['Counts_norm'] = scores['Counts'] / token_count * 100
+
+	return scores
+
 
 def extract_features(text):
 
 	start_time = time.process_time()
 
 	scores = fe.feat_counts(text, kw)
+	scores = normalise_scores(scores)
 
-	imp_feats, recog_feats = top_bottom_feats(scores)
-	improvement = get_main_response(imp_feats)
-	recognition = get_recognition(recog_feats)
+	
+	# imp_feats, recog_feats = top_bottom_feats(scores)
+	scores = top_bottom_feats(scores)
+
+
+	# improvement = get_main_response(imp_feats)
+	# recognition = get_recognition(recog_feats)
+	feedback = get_feedback(scores)
 
 
 	jsondata = json.dumps(
 		{
-		"Acknowledgement": recognition[0],
-		"Agreement": recognition[1],
-		"Hedges": recognition[2],
-		"Negation": recognition[3],
-		"Positive_Emotion": recognition[4],
-		"Reasoning": recognition[5],
-		"Subjectivity": recognition[6],
-		"First_Person_Single": recognition[7],
-		"Second_Person": recognition[8],
-		"imp1": improvement[0],
-		"imp2": improvement[1],
-		"imp3": improvement[2]
+		"Acknowledgement": feedback[0],
+		"Agreement": feedback[1],
+		"Hedges": feedback[2],
+		"Negation": feedback[3],
+		"Positive_Emotion": feedback[4],
+		"Reasoning": feedback[5],
+		"Subjectivity": feedback[6],
+		"Adverb_Limiter": feedback[7],
+		"Second_Person": feedback[8],
 		})
 	delta = round(time.process_time() - start_time, 3)
 	print('Runtime: ', delta)
@@ -147,7 +185,7 @@ def extract_features(text):
 
 if __name__ == "__main__":
 
-	text = 'I\'m not quite sure I really understand sorry, but for me please could you let me know how you came to this way of thinking? Would you mind?'
+	text = 'I feel like there should be more regulations with guns. I feel that cops shouldnt be allowed to kill. Why cant they just injure the individual?'
 	feedback = extract_features(text)
 	print(feedback)
 

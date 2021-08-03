@@ -23,7 +23,7 @@ features = ['Hedges', 'Positive.Emotion', 'Negative.Emotion', 'Impersonal.Pronou
 'Give.Agency', 'Hello', 'Please', 'First.Person.Plural', 'First.Person.Single',
 'Second.Person', 'Agreement', 'Acknowledgement', 'Subjectivity', 'Bare.Command',
 'WH.Questions', 'YesNo.Questions', 'Gratitude', 'Apology', 'Truth.Intensifier',
-'Affirmation', 'Adverb.Just', 'Conjunction.Start']
+'Affirmation', 'Adverb.Limiter', 'Conjunction.Start']
 
 
 df = pd.read_csv(path + filename)
@@ -41,7 +41,7 @@ def lasso_reg(df, alpha):
 
 	X = df[features]
 	y = df['receptiveness']
-
+ 
 	X_train, X_test, y_train, y_test = train_test_split(
 		X, y, test_size=0.33, random_state=42)
 	reg = Lasso(alpha = alpha)
@@ -258,7 +258,7 @@ def features_new():
 	# New algorithm test
 
 	UPLOAD_FOLDER	 = '../Data/In/'
-	FOLDERS_IN 	 = ['word_matches', 'spacy_pos', 'spacy_neg', 'word_start']
+	FOLDERS_IN 	 = ['word_matches', 'spacy_pos', 'spacy_noneg',  'spacy_neg_only', 'word_start', 'spacy_tokentag']
 
 	kw = prep.load_saved_data(UPLOAD_FOLDER, FOLDERS_IN)
 
@@ -266,6 +266,7 @@ def features_new():
 		text = df['response'][i]
 
 		scores = fe.feat_counts(text, kw).set_index('Features')
+		#print(scores)
 
 		if i == 0:
 			res = scores.T
@@ -273,10 +274,12 @@ def features_new():
 			res = res.append(scores.T)
 
 	res = res.fillna(0)
+
+	res.to_excel("../Out/feat_new.xlsx")
 	return res
 
 
-#res.to_excel("../Out/features_top10.xlsx")
+
 
 
 def features_old(df, features):
@@ -293,7 +296,7 @@ def features_old(df, features):
 def correl_feats(df, features):
 
 	feat_old = features_old(df, features)
-	feat_old.to_excel("../Out/feat_old.xlsx", index = False)
+	#feat_old.to_excel("../Out/feat_old.xlsx", index = False)
 	feat_new = features_new()
 	feat_new.to_excel("../Out/feat_new.xlsx", index = False)
 
@@ -309,6 +312,14 @@ def correl_feats(df, features):
 
 	return res
 
+# For creating histograms later, drop the conditions where Ps were not exposed to recipe
+
+# indexNames = df[(df['cond'] == 'middle') & (df['order'].isin([1,2]))].index
+# df.drop(indexNames, inplace=True)
+# df = df.reset_index()
+# print(df.head())
+# feat_new = features_new()
+
 # res = correl_feats(df, features)
 # res_small = res[res['Spearman'] < 0.9]
 # res_small.to_excel("../Out/res_small_cleantext.xlsx", index = False)
@@ -316,20 +327,161 @@ def correl_feats(df, features):
 
 # Plot correlations of where correlation was below 0.9
 
-df_old = pd.read_excel('../Out/feat_old.xlsx')
+# df_old = pd.read_excel('../Out/feat_old.xlsx')
 df_new = pd.read_excel('../Out/feat_new.xlsx')
-corr = pd.read_excel('../Out/res_correl_coeffs.xlsx')
+# corr = pd.read_excel('../Out/res_correl_coeffs.xlsx')
 
-low_cc = corr['Feature'][corr['Spearman'] < 0.9]
-print(corr)
-#print(corr[corr['Spearman'] < 0.9])
+# low_cc = corr['Feature'][corr['Spearman'] < 0.9]
+# print(corr)
 
-# for i in low_cc:
-# 	plt.plot(range(df_old.shape[0]), df_old[i], color = 'white', marker='+', mfc = 'blue')
-# 	plt.plot(range(df_new.shape[0]), df_new[i], color = 'white', marker='o', mfc = 'red')
-# 	plt.title(str(i))
-# 	plt.show()
+def feat_dist(df, x_lab, y_lab, facecolor, color, fontsize):
 
+	
+	fig, ax = plt.subplots(3, 3, figsize=(9, 10))
+	fig.suptitle('Distribution of key linguistic features')
+		
+	# fig.subplots_adjust(top=0.7) 
+
+	# the histogram of the data
+
+	feature_name = 'Acknowledgement'
+	x1 = df[feature_name]
+	ax[0,0].hist(x1, facecolor=facecolor, bins = range(min(x1), max(x1) + 1, 1), rwidth=0.9, align = 'left')
+	#ax[0,0].set_xticks(range(min(x1) , max(x1) + 1, 1))
+	ax[0,0].axvline(int(x1.quantile([0.67])), color=color, linestyle='dashed', linewidth=1)
+	ax[0,0].set(xticks = range(min(x1), max(x1) + 1, 1), xlim=[- 1, max(x1)])
+	ax[0,0].set_title(feature_name +  '\n two-thirds threshold: '
+		+ str(int(list(df[feature_name].quantile([0.67]))[0])), size = 12)
+	ax[0,0].set_xlabel(x_lab, fontsize = fontsize)
+	ax[0,0].set_ylabel(y_lab, fontsize = fontsize)
+	ax[0,0].tick_params(labelsize= fontsize)
+	ax[0,0].patch.set_facecolor('whitesmoke')
+
+
+	feature_name = 'Agreement'
+	x2 = df[feature_name]
+	ax[0,1].hist(x2, facecolor=facecolor, bins = range(min(x2), max(x2) + 1, 1), rwidth=0.9, align = 'left')
+	# ax[0,1].set_xticks(range(min(x2) , max(x2) + 1, 1))
+	ax[0,1].axvline(int(x2.quantile([0.67])), color=color, linestyle='dashed', linewidth=1)
+	ax[0,1].set(xticks = range(min(x2), max(x2) + 1, 1), xlim=[- 1, max(x2)])
+	ax[0,1].set_title(feature_name +  '\n two-thirds threshold: '
+		+ str(int(list(df[feature_name].quantile([0.67]))[0])), size = 12)
+	ax[0,1].set_xlabel(x_lab, fontsize = fontsize)
+	ax[0,1].set_ylabel(y_lab, fontsize = fontsize)
+	ax[0,1].tick_params(labelsize= fontsize)
+	ax[0,1].patch.set_facecolor('whitesmoke')
+
+	feature_name = 'Hedges'
+	x3 = df[feature_name]
+	ax[0,2].hist(x3, facecolor=facecolor, bins = range(min(x3), max(x3) + 1, 1), rwidth=0.9, align = 'left')
+	# ax[0,2].set_xticks(range(min(x3) , max(x3) + 1, 1))
+	ax[0,2].axvline(int(x3.quantile([0.67])), color=color, linestyle='dashed', linewidth=1)
+	ax[0,2].set(xticks = range(min(x3), max(x3) + 1, 1), xlim=[- 1, max(x3)])
+	ax[0,2].set_title(feature_name +  '\n two-thirds threshold: '
+		+ str(int(list(df[feature_name].quantile([0.67]))[0])), size = 12)
+	ax[0,2].set_xlabel(x_lab, fontsize = fontsize)
+	ax[0,2].set_ylabel(y_lab, fontsize = fontsize)
+	ax[0,2].tick_params(labelsize= fontsize)
+	ax[0,2].patch.set_facecolor('whitesmoke')
+
+	feature_name = 'Negation'
+	x4 = df[feature_name]
+	ax[1,0].hist(x4, facecolor=facecolor, bins = range(min(x4), max(x4) + 1, 1), rwidth=0.9, align = 'left')
+	# ax[1,0].set_xticks(range(min(x4) , max(x4) + 1, 1))
+	ax[1,0].axvline(int(x4.quantile([0.67])), color=color, linestyle='dashed', linewidth=1)
+	ax[1,0].set(xticks = range(min(x4), max(x4) + 1, 1), xlim=[- 1, max(x4)])
+	ax[1,0].set_title(feature_name +  '\n two-thirds threshold: '
+		+ str(int(list(df[feature_name].quantile([0.67]))[0])), size = 12)
+	ax[1,0].set_xlabel(x_lab, fontsize = fontsize)
+	ax[1,0].set_ylabel(y_lab, fontsize = fontsize)
+	ax[1,0].tick_params(labelsize= fontsize)
+	ax[1,0].patch.set_facecolor('whitesmoke')
+
+	feature_name = 'Positive_Emotion'
+	x5 = df[feature_name]
+	ax[1,1].hist(x5, facecolor=facecolor, bins = range(min(x5), max(x5) + 1, 1), rwidth=0.9, align = 'left')
+	# ax[1,1].set_xticks(range(min(x5) , max(x5) + 1, 1))
+	ax[1,1].axvline(int(x5.quantile([0.67])), color=color, linestyle='dashed', linewidth=1)
+	ax[1,1].set(xticks = range(min(x5), max(x5) + 1, 1), xlim=[- 1, max(x5)])
+	ax[1,1].set_title(feature_name +  '\n two-thirds threshold: '
+		+ str(int(list(df[feature_name].quantile([0.67]))[0])), size = 12)
+	ax[1,1].set_xlabel(x_lab, fontsize = fontsize)
+	ax[1,1].set_ylabel(y_lab, fontsize = fontsize)
+	ax[1,1].tick_params(labelsize= fontsize)
+	ax[1,1].patch.set_facecolor('whitesmoke')
+
+	feature_name = 'Reasoning'
+	x6 = df[feature_name]
+	ax[1,2].hist(x6, facecolor=facecolor, bins = range(min(x6), max(x6) + 1, 1), rwidth=0.9, align = 'left')
+	# ax[1,2].set_xticks(range(min(x6) , max(x6) + 1, 1))
+	ax[1,2].axvline(int(x6.quantile([0.67])), color=color, linestyle='dashed', linewidth=1)
+	ax[1,2].set(xticks = range(min(x6), max(x6) + 1, 1), xlim=[- 1, max(x6)])
+	ax[1,2].set_title(feature_name +  '\n two-thirds threshold: '
+		+ str(int(list(df[feature_name].quantile([0.67]))[0])), size = 12)
+	ax[1,2].set_xlabel(x_lab, fontsize = fontsize)
+	ax[1,2].set_ylabel(y_lab, fontsize = fontsize)
+	ax[1,2].tick_params(labelsize= fontsize)
+	ax[1,2].patch.set_facecolor('whitesmoke')
+
+	feature_name = 'Subjectivity'
+	x7 = df[feature_name]
+	ax[2,0].hist(x7, facecolor=facecolor, bins = range(min(x7), max(x7) + 1, 1), rwidth=0.9, align = 'left')
+	# ax[2,0].set_xticks(range(min(x7) , max(x7) + 1, 1))
+	ax[2,0].axvline(int(x7.quantile([0.67])), color=color, linestyle='dashed', linewidth=1)
+	ax[2,0].set(xticks = range(min(x7), max(x7) + 1, 1), xlim=[- 1, max(x7)])
+	ax[2,0].set_title(feature_name +  '\n two-thirds threshold: '
+		+ str(int(list(df[feature_name].quantile([0.67]))[0])), size = 12)
+	ax[2,0].set_xlabel(x_lab, fontsize = fontsize)
+	ax[2,0].set_ylabel(y_lab, fontsize = fontsize)
+	ax[2,0].tick_params(labelsize= fontsize)
+	ax[2,0].patch.set_facecolor('whitesmoke')
+
+	feature_name = 'Adverb_Limiter'
+	x8 = df[feature_name]
+	ax[2,1].hist(x8, facecolor=facecolor, bins = range(min(x8), max(x8) + 1, 1), rwidth=0.9, align = 'left')
+	# ax[2,1].set_xticks(range(min(x8) , max(x8) + 1, 1))
+	ax[2,1].axvline(int(x8.quantile([0.67])), color=color, linestyle='dashed', linewidth=1)
+	ax[2,1].set(xticks = range(min(x8), max(x8) + 1, 1), xlim=[- 1, max(x8)])
+	ax[2,1].set_title(feature_name +  '\n two-thirds threshold: '
+		+ str(int(list(df[feature_name].quantile([0.67]))[0])), size = 12)
+	ax[2,1].set_xlabel(x_lab, fontsize = fontsize)
+	ax[2,1].set_ylabel(y_lab, fontsize = fontsize)
+	ax[2,1].tick_params(labelsize= fontsize)
+	ax[2,1].patch.set_facecolor('whitesmoke')
+
+	feature_name = 'Second_Person'
+	x9 = df[feature_name]
+	ax[2,2].hist(x9, facecolor=facecolor, bins = range(min(x9), max(x9) + 1, 1), rwidth=0.9, align = 'left')
+	# ax[2,2].set_xticks(range(min(x9) , max(x9) + 1, 1))
+	ax[2,2].axvline(int(x9.quantile([0.67])), color=color, linestyle='dashed', linewidth=1)
+	ax[2,2].set(xticks = range(min(x9), max(x9) + 1, 1), xlim=[- 1, max(x9)])
+	ax[2,2].set_title(feature_name +  '\n two-thirds threshold: '
+		+ str(int(list(df[feature_name].quantile([0.67]))[0])), size = 12)
+	ax[2,2].set_xlabel(x_lab, fontsize = fontsize)
+	ax[2,2].set_ylabel(y_lab, fontsize = fontsize)
+	ax[2,2].tick_params(labelsize= fontsize)
+	ax[2,2].patch.set_facecolor('whitesmoke')
+
+
+	fig.subplots_adjust(wspace=0.5)
+	fig.subplots_adjust(hspace=0.7)
+	# plt.show()
+	fig.savefig('../Out/Images/All_hist.png', dpi = 300)
+
+#print(list(df_new))
+main_features = ['Acknowledgement', 'Agreement', 'Hedges', 'Negation', 'Positive_Emotion', 'Reasoning', 'Subjectivity', 'Adverb_Limiter', 'Second_Person']
+
+feat_dist(df_new, 'Feature counts', 'Count of responses', 'darkblue', 'darkmagenta', 10)
+# for i in main_features:
+# 	feat_dist(df_new, i)
+
+
+
+# df = df_new
+# q = pd.DataFrame(df['Subjectivity'].quantile([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]))
+# print(list(q.index))
+# print(list(q['Subjectivity']))
+# print(list(df['Negation'].quantile([0.67]))[0])
 
 
 
