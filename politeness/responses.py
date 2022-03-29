@@ -1,49 +1,54 @@
 fancy_responses = {
-	'Agreement':
-		{'fancy_name': 'Agreement phrases',
-		'recog': '<p>The algorithm noticed you <b>used enough</b> agreement phrases (e.g. <q>I agree</q>, <q>you are right</q>). <b>Keep using these phrases</b> next time!</p>',
-		'imp': '<p>The algorithm noticed you <b>could use more</b> agreement phrases (e.g. <q>I agree</q>, <q>you are right</q>). <b>Use more of these phrases</b> next time! They will make you seem <b>more</b> receptive.</p>'},
+    'Agreement':
+    {'fancy_name': 'Agreement phrases',
+     'recog': '<p>The algorithm noticed you <b>used enough</b> agreement phrases (e.g. <q>I agree</q>, <q>you are right</q>). <b>Keep using these phrases</b> next time!</p>',
+     'imp': '<p>The algorithm noticed you <b>could use more</b> agreement phrases (e.g. <q>I agree</q>, <q>you are right</q>). <b>Use more of these phrases</b> next time! They will make you seem <b>more</b> receptive.</p>'},
 
-	'Positive_Emotion':
-		{'fancy_name': 'Positive emotion phrases',
-		'recog': '<p>The algorithm noticed you <b>used enough</b> positive emotion words (e.g. <q>good</q>, <q>happy</q>). <b>Keep using these words</b> next time!</p>',
-		'imp': '<p>The algorithm noticed you <b>could use more</b> positive emotion words (e.g. <q>good</q>, <q>happy</q>). <b>Use more of these words</b> next time! They will make you seem <b>more</b> receptive.</p>'},
+        'Positive_Emotion':
+    {'fancy_name': 'Positive emotion phrases',
+     'recog': '<p>The algorithm noticed you <b>used enough</b> positive emotion words (e.g. <q>good</q>, <q>happy</q>). <b>Keep using these words</b> next time!</p>',
+     'imp': '<p>The algorithm noticed you <b>could use more</b> positive emotion words (e.g. <q>good</q>, <q>happy</q>). <b>Use more of these words</b> next time! They will make you seem <b>more</b> receptive.</p>'},
 
-	'Reasoning': 
-		{'fancy_name': 'Reasoning words',
-		'recog': '<p>The algorithm noticed you used <b>too many</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
-		'imp': '<p>The algorithm noticed you <b>avoided</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Keep <b>avoiding</b> these phrases!</p>'},
+        'Reasoning':
+    {'fancy_name': 'Reasoning words',
+     'recog': '<p>The algorithm noticed you used <b>too many</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
+     'imp': '<p>The algorithm noticed you <b>avoided</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Keep <b>avoiding</b> these phrases!</p>'},
 
-	'Subjectivity':
-		{'fancy_name': 'Subjective phrases',
-		'recog': '<p>The algorithm noticed you <b>used enough</b> subjective phrases (e.g. <q>I believe</q> or <q>In my opinion</q>). <b>Keep using these phrases</b> next time!</p>',
-		'imp': '<p>The algorithm noticed you <b>could use more</b> subjective phrases (e.g. <q>I believe</q> or <q>In my opinion</q>). <b>Use more of these phrases</b> next time! They will make you seem <b>more</b> receptive.</p>'},
+        'Subjectivity':
+    {'fancy_name': 'Subjective phrases',
+     'recog': '<p>The algorithm noticed you <b>used enough</b> subjective phrases (e.g. <q>I believe</q> or <q>In my opinion</q>). <b>Keep using these phrases</b> next time!</p>',
+     'imp': '<p>The algorithm noticed you <b>could use more</b> subjective phrases (e.g. <q>I believe</q> or <q>In my opinion</q>). <b>Use more of these phrases</b> next time! They will make you seem <b>more</b> receptive.</p>'},
 
-	'Acknowledgement': 
-		{'fancy_name': 'Acknowledgement phrases',
-		'recog': '<p>The algorithm noticed you <b>used enough</b> acknowledgement phrases (e.g. <q>I understand</q> or <q>I get</q>). <b>Keep using these phrases</b> next time!</p>',
-		'imp': '<p>The algorithm noticed you <b>could use more</b> acknowledgement phrases (e.g. <q>I understand</q> or <q>I get</q>). <b>Use more of these phrases</b> next time! They will make you seem <b>more</b> receptive.</p>'},
+        'Acknowledgement':
+    {'fancy_name': 'Acknowledgement phrases',
+     'recog': '<p>The algorithm noticed you <b>used enough</b> acknowledgement phrases (e.g. <q>I understand</q> or <q>I get</q>). <b>Keep using these phrases</b> next time!</p>',
+     'imp': '<p>The algorithm noticed you <b>could use more</b> acknowledgement phrases (e.g. <q>I understand</q> or <q>I get</q>). <b>Use more of these phrases</b> next time! They will make you seem <b>more</b> receptive.</p>'},
 
-	'Negation':
-		{'fancy_name': 'Negation words',
-		'recog': '<p>The algorithm noticed you used <b>too many</b> negation words (e.g. <q>did not</q>, <q>would not</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
-		'imp': '<p>The algorithm noticed you <b>avoided</b> negation words (e.g. <q>did not</q>, <q>would not</q>). Keep <b>avoiding</b> these phrases!</p>'},
+        'Negation':
+    {'fancy_name': 'Negation words',
+     'recog': '<p>The algorithm noticed you used <b>too many</b> negation words (e.g. <q>did not</q>, <q>would not</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
+     'imp': '<p>The algorithm noticed you <b>avoided</b> negation words (e.g. <q>did not</q>, <q>would not</q>). Keep <b>avoiding</b> these phrases!</p>'},
 
-	'Hedges':
-		{'fancy_name': 'Hedging words',
-		'recog': '<p>The algorithm noticed you <b>used enough</b> hedging words (e.g. <q>almost</q> or <q>maybe</q>). <b>Keep using these words</b> next time!</p>',
-		'imp': '<p>The algorithm noticed you <b>could use more</b> hedging words (e.g. <q>almost</q> or <q>maybe</q>). <b>Use more of these words</b> next time! They will make you seem <b>more</b> receptive.</p>'},
+        'Hedges':
+    {'fancy_name': 'Hedging words',
+     'recog': '<p>The algorithm noticed you <b>used enough</b> hedging words (e.g. <q>almost</q> or <q>maybe</q>). <b>Keep using these words</b> next time!</p>',
+     'imp': '<p>The algorithm noticed you <b>could use more</b> hedging words (e.g. <q>almost</q> or <q>maybe</q>). <b>Use more of these words</b> next time! They will make you seem <b>more</b> receptive.</p>'},
 
-	'Second_Person': 
-		{'fancy_name': 'Second person words',
-		'recog': '<p>The algorithm noticed you <b>used enough</b> second person phrases (e.g. <q>you</q> or <q>yourself</q>). <b>Keep using these phrases</b> next time!</p>',
-		'imp': '<p>The algorithm noticed <b>could use more</b> second person phrases (e.g. <q>you</q> or <q>yourself</q>). <b>Use more of these phrases</b> next time! They will make you seem <b>more</b> receptive.</p>'},
+        'Second_Person':
+    {'fancy_name': 'Second person words',
+     'recog': '<p>The algorithm noticed you <b>used enough</b> second person phrases (e.g. <q>you</q> or <q>yourself</q>). <b>Keep using these phrases</b> next time!</p>',
+     'imp': '<p>The algorithm noticed <b>could use more</b> second person phrases (e.g. <q>you</q> or <q>yourself</q>). <b>Use more of these phrases</b> next time! They will make you seem <b>more</b> receptive.</p>'},
 
-	'Adverb_Limiter':
-		{'fancy_name': 'Words that limit a statement',
-		'recog': '<p>The algorithm noticed you used <b>too many</b> adverb limiters (e.g. <q>just</q>, <q>only</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
-		'imp': '<p>The algorithm noticed you <b>avoided</b> adverb limiters (e.g. <q>just</q>, <q>only</q>). Keep <b>avoiding</b> these phrases!</p>'}
-	}
+        'Adverb_Limiter':
+    {'fancy_name': 'Words that limit a statement',
+     'recog': '<p>The algorithm noticed you used <b>too many</b> adverb limiters (e.g. <q>just</q>, <q>only</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
+     'imp': '<p>The algorithm noticed you <b>avoided</b> adverb limiters (e.g. <q>just</q>, <q>only</q>). Keep <b>avoiding</b> these phrases!</p>'},
+
+        'Disagreement':
+    {'fancy_name': 'Disagreement phrases',
+     'recog': '<p>The algorithm noticed you used <b>too many</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
+     'imp': '<p>The algorithm noticed you <b>avoided</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Keep <b>avoiding</b> these phrases!</p>'}
+}
 
 """
 fancy_responses = {
