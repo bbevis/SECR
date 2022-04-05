@@ -133,12 +133,12 @@ def normalise_scores(scores):
 
 
 @app.route("/", methods=['GET', 'POST'])
-def extract_features(text, ordered):
+def extract_features():
 
     start_time = time.process_time()
 
-    # text = request.args.get('text', None)
-    # ordered = request.args.get('ordered', None)
+    text = request.args.get('text', None)
+    ordered = request.args.get('ordered', None)
 
     scores = fe.feat_counts(text, kw)
     scores = normalise_scores(scores)
@@ -220,8 +220,6 @@ def extract_features(text, ordered):
                 "feature_name_9": ranked_features[8],
             })
 
-    print(scores)
-    print(scores['thresholds'])
     delta = round(time.process_time() - start_time, 3)
     print('Runtime: ', delta)
 
@@ -230,8 +228,8 @@ def extract_features(text, ordered):
 
 if __name__ == "__main__":
 
-    # app.run(debug=True)
+    app.run(debug=True)
 
-    text = 'I disagree that there should be more regulations with guns. I feel that cops shouldnt be allowed to kill. Why cant they just injure the individual?'
-    feedback = extract_features(text, ordered='ranked')
-    print(feedback)
+#     text = 'I disagree that there should be more regulations with guns. I feel that cops shouldnt be allowed to kill. Why cant they just injure the individual?'
+#     feedback = extract_features(text, ordered='ranked')
+#     print(feedback)
