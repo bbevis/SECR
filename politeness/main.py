@@ -85,7 +85,9 @@ def get_scores(scores, ordered=None):
     if ordered == 'ranked':
         scores['abs_diff'] = abs(scores['diff'])
         scores['ranked_diff'] = [scores['diff'][x] * -1
-                                 if scores['Features'][x] in main_features_pos
+                                 if scores['Features'][x] in main_features_pos and scores['diff'][x] != 0
+                                 else scores['diff'][x] * -1 + 0.001  # this is the tie breaker
+                                 if scores['Features'][x] in main_features_pos and scores['diff'][x] == 0
                                  else scores['diff'][x]
                                  for x in range(scores['Features'].shape[0])]
 
@@ -109,9 +111,9 @@ def get_feedback(scores):
 
     for i in ordered_features:
         diff = scores['diff'].loc[scores['Features'] == i].to_list()[0]
-        if i in main_features_pos and diff < 0:
+        if i in main_features_pos and diff <= 0:
             feedback.append(responses.fancy_responses[i]['imp'])
-        elif i in main_features_pos and diff >= 0:
+        elif i in main_features_pos and diff > 0:
             feedback.append(responses.fancy_responses[i]['recog'])
         elif i in main_features_neg and diff > 0:
             feedback.append(responses.fancy_responses[i]['imp'])
@@ -220,6 +222,8 @@ def extract_features():
                 "feature_name_9": ranked_features[8],
             })
 
+    print(scores)
+    print(scores['thresholds'])
     delta = round(time.process_time() - start_time, 3)
     print('Runtime: ', delta)
 
@@ -230,6 +234,6 @@ if __name__ == "__main__":
 
     app.run(debug=True)
 
-#     text = 'I disagree that there should be more regulations with guns. I feel that cops shouldnt be allowed to kill. Why cant they just injure the individual?'
-#     feedback = extract_features(text, ordered='ranked')
-#     print(feedback)
+    # text = 'I agree that social media has done nothing to improve the dialogue between all involved parties, and may have contributed to a greater divide between the two factions. However, I think that social media can help to spread awareness of these incidents. The more publicity the confrontation of police and minority crime suspects get, the more likely there will be consequences (e.g. if the police officers used unnecessary force). I hope in the long-term, this might have a positive impact on our police policies.'
+    # feedback = extract_features(text, ordered='ranked')
+    # print(feedback)
