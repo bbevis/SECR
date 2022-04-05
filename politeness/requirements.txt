@@ -35,7 +35,7 @@ pytz==2021.1
 regex==2021.3.17
 requests==2.25.1
 scikit-learn==0.24.1
-scipy==1.6.3
+scipy==1.7.3
 six==1.15.0
 smart-open==3.0.0
 spacy==3.0.5

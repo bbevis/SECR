@@ -90,7 +90,6 @@ def get_scores(scores, ordered=None):
                                  for x in range(scores['Features'].shape[0])]
 
         scores = scores.sort_values('ranked_diff', ascending=False)
-        print(scores)
 
     if ordered == 'random':
         scores = scores.sample(frac=1).reset_index(drop=True)
@@ -110,14 +109,14 @@ def get_feedback(scores):
 
     for i in ordered_features:
         diff = scores['diff'].loc[scores['Features'] == i].to_list()[0]
-        if i in main_features_pos and diff <= 0:
+        if i in main_features_pos and diff < 0:
             feedback.append(responses.fancy_responses[i]['imp'])
-        elif i in main_features_pos and diff > 0:
+        elif i in main_features_pos and diff >= 0:
             feedback.append(responses.fancy_responses[i]['recog'])
         elif i in main_features_neg and diff > 0:
-            feedback.append(responses.fancy_responses[i]['recog'])
-        elif i in main_features_neg and diff <= 0:
             feedback.append(responses.fancy_responses[i]['imp'])
+        elif i in main_features_neg and diff <= 0:
+            feedback.append(responses.fancy_responses[i]['recog'])
 
     return feedback
 
@@ -133,12 +132,13 @@ def normalise_scores(scores):
     return scores
 
 
-@app.route("/")
-def extract_features(text, ordered='ranked'):
+@app.route("/", methods=['GET', 'POST'])
+def extract_features(text, ordered):
 
     start_time = time.process_time()
 
-    # text = request.args.get('text')
+    # text = request.args.get('text', None)
+    # ordered = request.args.get('ordered', None)
 
     scores = fe.feat_counts(text, kw)
     scores = normalise_scores(scores)
@@ -192,7 +192,7 @@ def extract_features(text, ordered='ranked'):
 
     if ordered == 'random':
 
-        scores = get_scores(scores, ordered='random')
+        scores = get_scores(scores, 'random')
 
         feedback = get_feedback(scores)
 
@@ -220,6 +220,8 @@ def extract_features(text, ordered='ranked'):
                 "feature_name_9": ranked_features[8],
             })
 
+    print(scores)
+    print(scores['thresholds'])
     delta = round(time.process_time() - start_time, 3)
     print('Runtime: ', delta)
 
@@ -228,8 +230,8 @@ def extract_features(text, ordered='ranked'):
 
 if __name__ == "__main__":
 
-    app.run()
+    # app.run(debug=True)
 
-    # text = 'You are wrong. I disagree that there should be more regulations with guns. I feel that cops shouldnt be allowed to kill. Why cant they just injure the individual?'
-    # feedback = extract_features(text, ordered='ranked')
-    # print(feedback)
+    text = 'I disagree that there should be more regulations with guns. I feel that cops shouldnt be allowed to kill. Why cant they just injure the individual?'
+    feedback = extract_features(text, ordered='ranked')
+    print(feedback)

@@ -11,8 +11,8 @@ fancy_responses = {
 
         'Reasoning':
     {'fancy_name': 'Reasoning words',
-     'recog': '<p>The algorithm noticed you used <b>too many</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
-     'imp': '<p>The algorithm noticed you <b>avoided</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Keep <b>avoiding</b> these phrases!</p>'},
+     'imp': '<p>The algorithm noticed you used <b>too many</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
+     'recog': '<p>The algorithm noticed you <b>avoided</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Keep <b>avoiding</b> these phrases!</p>'},
 
         'Subjectivity':
     {'fancy_name': 'Subjective phrases',
@@ -26,8 +26,8 @@ fancy_responses = {
 
         'Negation':
     {'fancy_name': 'Negation words',
-     'recog': '<p>The algorithm noticed you used <b>too many</b> negation words (e.g. <q>did not</q>, <q>would not</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
-     'imp': '<p>The algorithm noticed you <b>avoided</b> negation words (e.g. <q>did not</q>, <q>would not</q>). Keep <b>avoiding</b> these phrases!</p>'},
+     'imp': '<p>The algorithm noticed you used <b>too many</b> negation words (e.g. <q>did not</q>, <q>would not</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
+     'recog': '<p>The algorithm noticed you <b>avoided</b> negation words (e.g. <q>did not</q>, <q>would not</q>). Keep <b>avoiding</b> these phrases!</p>'},
 
         'Hedges':
     {'fancy_name': 'Hedging words',
@@ -41,13 +41,13 @@ fancy_responses = {
 
         'Adverb_Limiter':
     {'fancy_name': 'Words that limit a statement',
-     'recog': '<p>The algorithm noticed you used <b>too many</b> adverb limiters (e.g. <q>just</q>, <q>only</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
-     'imp': '<p>The algorithm noticed you <b>avoided</b> adverb limiters (e.g. <q>just</q>, <q>only</q>). Keep <b>avoiding</b> these phrases!</p>'},
+     'imp': '<p>The algorithm noticed you used <b>too many</b> adverb limiters (e.g. <q>just</q>, <q>only</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
+     'recog': '<p>The algorithm noticed you <b>avoided</b> adverb limiters (e.g. <q>just</q>, <q>only</q>). Keep <b>avoiding</b> these phrases!</p>'},
 
         'Disagreement':
     {'fancy_name': 'Disagreement phrases',
-     'recog': '<p>The algorithm noticed you used <b>too many</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
-     'imp': '<p>The algorithm noticed you <b>avoided</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Keep <b>avoiding</b> these phrases!</p>'}
+     'imp': '<p>The algorithm noticed you used <b>too many</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
+     'recog': '<p>The algorithm noticed you <b>avoided</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Keep <b>avoiding</b> these phrases!</p>'}
 }
 
 """
