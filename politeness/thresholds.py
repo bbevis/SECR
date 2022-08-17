@@ -26,9 +26,9 @@ features = ['Hedges', 'Positive.Emotion', 'Negative.Emotion', 'Impersonal.Pronou
             'Affirmation', 'Adverb.Limiter', 'Conjunction.Start']
 
 
-main_features = ['Acknowledgement', 'Agreement', 'Hedges', 'Negation', 'Positive_Emotion', 'Reasoning', 'Subjectivity', 'Adverb_Limiter', 'Disagreement']
+main_features = ['Acknowledgement', 'Agreement', 'Hedges', 'Negation', 'Positive_Emotion', 'Subjectivity', 'Adverb_Limiter', 'Disagreement', 'Negative_Emotion']
 #thresholds = [0, 1, 1, 2, 3, 0, 1, 0, 1]
-thresholds = [0.0, 1.1, 1.4, 1.4, 2.9, 0.0, 0.0, 0.0, 0.0]
+thresholds = [0.0, 1.1, 1.4, 1.4, 2.9, 0.0, 0.0, 0.0, 2.9]
 
 
 df = pd.read_csv('../Out/feat_new.csv')
@@ -48,7 +48,8 @@ def get_thresholds():
 
     return thresholds
 
-# print(get_thresholds())
+
+print(get_thresholds())
 
 
 def create_subplot(f, ax, feature_name, df, x_lab, y_lab, facecolor, color, fontsize):

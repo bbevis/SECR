@@ -47,7 +47,12 @@ fancy_responses = {
         'Disagreement':
     {'fancy_name': 'Disagreement phrases',
      'imp': '<p>The algorithm noticed you used <b>too many</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
-     'recog': '<p>The algorithm noticed you <b>avoided</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Keep <b>avoiding</b> these phrases!</p>'}
+     'recog': '<p>The algorithm noticed you <b>avoided</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Keep <b>avoiding</b> these phrases!</p>'},
+
+         'Negative_Emotion':
+    {'fancy_name': 'Negative emotion phrases',
+     'imp': '<p>The algorithm noticed you used <b>too many</b> negative emotion phrases (e.g. <q>You are hopeless</q>, <q>This is not feasible</q>). Try to <b>decrease this</b> next time! They will make you seem <b>less</b> receptive.</p>',
+     'recog': '<p>The algorithm noticed you <b>avoided</b> negative emotion phrases (e.g. <q>You are hopeless</q>, <q>This is not feasible</q>). Keep <b>avoiding</b> these phrases!</p>'}
 }
 
 """

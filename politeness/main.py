@@ -28,11 +28,11 @@ app = Flask(__name__)
 # FOLDERS_IN = ['word_matches', 'spacy_pos', 'spacy_noneg', 'spacy_neg_only', 'word_start', 'spacy_tokentag']
 # READ_TYPE = ['single', 'multiple', 'multiple', 'single', 'single', 'single']
 
-main_features = ['Acknowledgement', 'Agreement', 'Hedges', 'Negation', 'Positive_Emotion', 'Reasoning', 'Subjectivity', 'Adverb_Limiter', 'Disagreement']
+main_features = ['Acknowledgement', 'Agreement', 'Hedges', 'Negation', 'Positive_Emotion', 'Subjectivity', 'Adverb_Limiter', 'Disagreement', 'Negative_Emotion']
 main_features_pos = ['Acknowledgement', 'Agreement', 'Hedges', 'Positive_Emotion', 'Subjectivity']
-main_features_neg = ['Negation', 'Reasoning', 'Adverb_Limiter', 'Disagreement']
+main_features_neg = ['Negation', 'Negative_Emotion', 'Adverb_Limiter', 'Disagreement']
 
-thresholds = [0.0, 1.1, 1.4, 1.4, 2.9, 0.0, 0.0, 0.0, 0.0]
+thresholds = [0.0, 1.1, 1.4, 1.4, 2.9, 0.0, 0.0, 0.0, 2.8]
 
 
 # nlp = en_core_web_sm.load()
@@ -135,18 +135,19 @@ def normalise_scores(scores):
 
 
 @app.route("/", methods=['GET', 'POST'])
-def extract_features():
+def extract_features(text, ordered):
 
     start_time = time.process_time()
 
-    text = request.args.get('text', None)
-    ordered = request.args.get('ordered', None)
+    # text = request.args.get('text', None)
+    # ordered = request.args.get('ordered', None)
 
     scores = fe.feat_counts(text, kw)
     scores = normalise_scores(scores)
 
     if ordered is None:
         scores = get_scores(scores)
+
         feedback = get_feedback(scores)
 
         jsondata = json.dumps(
@@ -156,10 +157,11 @@ def extract_features():
                 "Hedges": feedback[2],
                 "Negation": feedback[3],
                 "Positive_Emotion": feedback[4],
-                "Reasoning": feedback[5],
+                #"Reasoning": feedback[5],
                 "Subjectivity": feedback[6],
                 "Adverb_Limiter": feedback[7],
                 "Disagreement": feedback[8],
+                "Negative_Emotion": feedback[9],
             })
 
     if ordered == 'ranked':
@@ -195,7 +197,6 @@ def extract_features():
     if ordered == 'random':
 
         scores = get_scores(scores, 'random')
-
         feedback = get_feedback(scores)
 
         ranked_features = scores['Features'].tolist()
@@ -232,8 +233,8 @@ def extract_features():
 
 if __name__ == "__main__":
 
-    app.run(debug=True)
+    # app.run(debug=True)
 
-    # text = 'I agree that social media has done nothing to improve the dialogue between all involved parties, and may have contributed to a greater divide between the two factions. However, I think that social media can help to spread awareness of these incidents. The more publicity the confrontation of police and minority crime suspects get, the more likely there will be consequences (e.g. if the police officers used unnecessary force). I hope in the long-term, this might have a positive impact on our police policies.'
-    # feedback = extract_features(text, ordered='ranked')
-    # print(feedback)
+    text = 'However, in my opinion resources.'
+    feedback = extract_features(text, ordered='ranked')
+    print(feedback)
