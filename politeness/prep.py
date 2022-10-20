@@ -14,6 +14,7 @@ nlp = en_core_web_sm.load()
 
 #import spacy
 
+
 def load_to_lists(path, words):
 
     keywords = []
@@ -53,15 +54,15 @@ def load_to_lists(path, words):
 
 # def load_data(paths, words_in_line):
 
-# 	all_names = []
-# 	all_attributes = []
-# 	for i in range(len(paths)):
-# 		names, attributes = load_to_lists(paths[i], words = words_in_line[i])
-# 		all_names.extend(names)
-# 		all_attributes.extend(attributes)
+#   all_names = []
+#   all_attributes = []
+#   for i in range(len(paths)):
+#       names, attributes = load_to_lists(paths[i], words = words_in_line[i])
+#       all_names.extend(names)
+#       all_attributes.extend(attributes)
 
 
-# 	return all_names, all_attributes
+#   return all_names, all_attributes
 
 
 def load_to_dict(path, words):
@@ -141,20 +142,22 @@ def load_saved_data(path_in, folders):
 
     return dicts
 
+
 def clean_text(text):
 
     orig = ["let's", "i'm", "won't", "can't", "shan't", "'d",
             "'ve", "'s", "'ll", "'re", "n't", "u.s.a.", "u.s.", "e.g.", "i.e.",
-            "‘", "’", "“", "”", "100%", "  ", "mr.", "mrs."]
+            "‘", "’", "“", "”", "100%", "  ", "mr.", "mrs.", "dont", "wont"]
 
     new = ["let us", "i am", "will not", "cannot", "shall not", " would",
            " have", " is", " will", " are", " not", "usa", "usa", "eg", "ie",
-           "'", "'", '"', '"', "definitely", " ", "mr", "mrs"]
+           "'", "'", '"', '"', "definitely", " ", "mr", "mrs", "do not", "would not"]
 
     for i in range(len(orig)):
         text = text.replace(orig[i], new[i])
 
     return text
+
 
 def prep_simple(text):
 
@@ -166,6 +169,7 @@ def prep_simple(text):
     t = re.sub('[^A-Za-z,]', ' ', t)  # all other special chracters are replaced with blanks
 
     return t
+
 
 def prep_whole(text):
 
@@ -193,6 +197,7 @@ def sentenciser(text):
 
     return split_t
 
+
 def punctuation_seperator(text):
 
     #x = tokenize.sent_tokenize(self.text)
@@ -211,6 +216,7 @@ def punctuation_seperator(text):
 
     return no_punct
 
+
 def conjection_seperator(text):
 
     tags = nltk.pos_tag(nltk.word_tokenize(text))
@@ -228,6 +234,7 @@ def conjection_seperator(text):
         return [' '.join(p) for p in parts]
     else:
         return [' '.join(first_elements)]
+
 
 def phrase_split(text):
 
