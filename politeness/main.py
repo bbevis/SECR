@@ -13,7 +13,7 @@ import json
 import cgi
 import cgitb
 import random
-
+# import responses
 from flask import Flask, request
 
 
@@ -135,106 +135,107 @@ def normalise_scores(scores):
 
 
 @app.route("/", methods=['GET', 'POST'])
-def extract_features(text, ordered):
+def extract_features():
 
     start_time = time.process_time()
 
-    # text = request.args.get('text', None)
+    text = request.args.get('text', None)
     # ordered = request.args.get('ordered', None)
 
     scores = fe.feat_counts(text, kw)
     scores = normalise_scores(scores)
 
-    if ordered is None:
-        scores = get_scores(scores)
+    # if ordered is None:
+    #     scores = get_scores(scores)
 
-        feedback = get_feedback(scores)
+    #     feedback = get_feedback(scores)
 
-        jsondata = json.dumps(
-            {
-                "Acknowledgement": feedback[0],
-                "Agreement": feedback[1],
-                "Hedges": feedback[2],
-                "Negation": feedback[3],
-                "Positive_Emotion": feedback[4],
-                #"Reasoning": feedback[5],
-                "Subjectivity": feedback[6],
-                "Adverb_Limiter": feedback[7],
-                "Disagreement": feedback[8],
-                "Negative_Emotion": feedback[9],
-            })
+    #     jsondata = json.dumps(
+    #         {
+    #             "Acknowledgement": feedback[0],
+    #             "Agreement": feedback[1],
+    #             "Hedges": feedback[2],
+    #             "Negation": feedback[3],
+    #             "Positive_Emotion": feedback[4],
+    #             #"Reasoning": feedback[5],
+    #             "Subjectivity": feedback[6],
+    #             "Adverb_Limiter": feedback[7],
+    #             "Disagreement": feedback[8],
+    #             "Negative_Emotion": feedback[9],
+    #         })
 
-    if ordered == 'ranked':
+    # if ordered == 'ranked':
 
-        scores = get_scores(scores, ordered='ranked')
+    scores = get_scores(scores, ordered='ranked')
 
-        feedback = get_feedback(scores)
+    feedback = get_feedback(scores)
 
-        ranked_features = scores['Features'].tolist()
+    ranked_features = scores['Features'].tolist()
 
-        jsondata = json.dumps(
-            {
-                "message_1": feedback[0],
-                "message_2": feedback[1],
-                "message_3": feedback[2],
-                "message_4": feedback[3],
-                "message_5": feedback[4],
-                "message_6": feedback[5],
-                "message_7": feedback[6],
-                "message_8": feedback[7],
-                "message_9": feedback[8],
-                "feature_name_1": ranked_features[0],
-                "feature_name_2": ranked_features[1],
-                "feature_name_3": ranked_features[2],
-                "feature_name_4": ranked_features[3],
-                "feature_name_5": ranked_features[4],
-                "feature_name_6": ranked_features[5],
-                "feature_name_7": ranked_features[6],
-                "feature_name_8": ranked_features[7],
-                "feature_name_9": ranked_features[8],
-            })
+    jsondata = json.dumps(
+        {
+            "message_1": feedback[0],
+            "message_2": feedback[1],
+            "message_3": feedback[2],
+            "message_4": feedback[3],
+            "message_5": feedback[4],
+            "message_6": feedback[5],
+            "message_7": feedback[6],
+            "message_8": feedback[7],
+            "message_9": feedback[8],
+            "feature_name_1": ranked_features[0],
+            "feature_name_2": ranked_features[1],
+            "feature_name_3": ranked_features[2],
+            "feature_name_4": ranked_features[3],
+            "feature_name_5": ranked_features[4],
+            "feature_name_6": ranked_features[5],
+            "feature_name_7": ranked_features[6],
+            "feature_name_8": ranked_features[7],
+            "feature_name_9": ranked_features[8],
+        })
 
-    if ordered == 'random':
+    # if ordered == 'random':
 
-        scores = get_scores(scores, 'random')
-        feedback = get_feedback(scores)
+    #     scores = get_scores(scores, 'random')
+    #     feedback = get_feedback(scores)
 
-        ranked_features = scores['Features'].tolist()
+    #     ranked_features = scores['Features'].tolist()
 
-        jsondata = json.dumps(
-            {
-                "message_1": feedback[0],
-                "message_2": feedback[1],
-                "message_3": feedback[2],
-                "message_4": feedback[3],
-                "message_5": feedback[4],
-                "message_6": feedback[5],
-                "message_7": feedback[6],
-                "message_8": feedback[7],
-                "message_9": feedback[8],
-                "feature_name_1": ranked_features[0],
-                "feature_name_2": ranked_features[1],
-                "feature_name_3": ranked_features[2],
-                "feature_name_4": ranked_features[3],
-                "feature_name_5": ranked_features[4],
-                "feature_name_6": ranked_features[5],
-                "feature_name_7": ranked_features[6],
-                "feature_name_8": ranked_features[7],
-                "feature_name_9": ranked_features[8],
-            })
+    #     jsondata = json.dumps(
+    #         {
+    #             "message_1": feedback[0],
+    #             "message_2": feedback[1],
+    #             "message_3": feedback[2],
+    #             "message_4": feedback[3],
+    #             "message_5": feedback[4],
+    #             "message_6": feedback[5],
+    #             "message_7": feedback[6],
+    #             "message_8": feedback[7],
+    #             "message_9": feedback[8],
+    #             "feature_name_1": ranked_features[0],
+    #             "feature_name_2": ranked_features[1],
+    #             "feature_name_3": ranked_features[2],
+    #             "feature_name_4": ranked_features[3],
+    #             "feature_name_5": ranked_features[4],
+    #             "feature_name_6": ranked_features[5],
+    #             "feature_name_7": ranked_features[6],
+    #             "feature_name_8": ranked_features[7],
+    #             "feature_name_9": ranked_features[8],
+    #         })
 
-    print(scores)
-    print(scores['thresholds'])
-    delta = round(time.process_time() - start_time, 3)
-    print('Runtime: ', delta)
+    # print(scores)
+    # print(scores['thresholds'])
+    # delta = round(time.process_time() - start_time, 3)
+    # print('Runtime: ', delta)
 
     return jsondata
 
 
 if __name__ == "__main__":
 
-    # app.run(debug=True)
+    app.run(debug=True)
 
-    text = 'I understand your perspective and agree that I would not want to have resentment in the workplace against women, as that would further compound the issue we are looking at. I do think that it is true that women are underrepresented in STEM careers and am a believer that something should be done to address this discrepancy, even if that is not implementing a priority for women in hiring decisions. While I don\'t think that companies should explicitly hire simply because of their gender, I do think that they should be mindful of the gender gap in STEM and look to address those issues through their hiring practices.'
-    feedback = extract_features(text, ordered='ranked')
-    print(feedback)
+    # text = 'I understand your perspective and agree that I would not want to have resentment in the workplace against women, as that would further compound the issue we are looking at. I do think that it is true that women are underrepresented in STEM careers and am a believer that something should be done to address this discrepancy, even if that is not implementing a priority for women in hiring decisions. While I don\'t think that companies should explicitly hire simply because of their gender, I do think that they should be mindful of the gender gap in STEM and look to address those issues through their hiring practices.'
+
+    # feedback = extract_features(text, ordered='ranked')
+    # print(feedback)
