@@ -1,6 +1,6 @@
-from google.cloud.sql.connector import Connector
-import sqlalchemy
-import os
+# from google.cloud.sql.connector import Connector
+# import sqlalchemy
+# import os
 
 # initialize Connector object
 # connector = Connector()
