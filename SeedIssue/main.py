@@ -1,108 +1,96 @@
-#!/usr/bin/env python3
-import numpy as np
-import pymysql
-import cgi
-import cgitb
-import random
-import json
-import string
-import csv
+from google.cloud.sql.connector import Connector
+import sqlalchemy
+import os
 
-cgitb.enable()
-#############################################################
-print("Content-Type: text/html")
-print()
+# initialize Connector object
+# connector = Connector()
+
+# function to return the database connection object
+
+# INSTANCE_CONNECTION_NAME = '/cloudsql/{}'.format("ace-study-297421:europe-west2:yeomans-database")  # i.e demo-project:us-central1:demo-instance
+# print(f"Your instance connection name is: {INSTANCE_CONNECTION_NAME}")
+# DB_USER = "mikeye5_my"
+# DB_PASS = "mapleleaf"
+# DB_NAME = "mikeye5_runone"
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/path/to/file.json"
+
+
+# db.py
+import os
+import pymysql
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
 
 db_user = "mikeye5_my"
 db_password = "mapleleaf"
 db_name = "mikeye5_runone"
 db_connection_name = "ace-study-297421:europe-west2:yeomans-database"
-
 unix_socket = '/cloudsql/{}'.format(db_connection_name)
-cnx = pymysql.connect(user=db_user, password=db_password,
-                      unix_socket=unix_socket, db=db_name)
-
-cr = cnx.cursor()
-#############################################################
-
-form = cgi.FieldStorage()
-count = form['count'].value
-
-issues={}
-
-if("blm_pos" in form):
-	if(form['blm_pos'].value!="4"):
-		issues['blm']=form['blm_pos'].value
 
 
-if("sa_pos" in form):
-	if(form['sa_pos'].value!="4"):
-		issues['sa']=form['sa_pos'].value
+def open_connection():
 
-if("stem_pos" in form):
-	if(form['stem_pos'].value!="4"):
-		issues['stem']=form['stem_pos'].value
+    # try:
+    conn = pymysql.connect(user=db_user, password=db_password,
+                           unix_socket=unix_socket, db=db_name,
+                           cursorclass=pymysql.cursors.DictCursor
+                           )
 
-if("isis_pos" in form):
-	if(form['isis_pos'].value!="4"):
-		issues['isis']=form['isis_pos'].value
+    # except pymysql.MySQLError as e:
+    #     print(e)
 
-
-issuenames=list(issues.items())
-
-random.shuffle(issuenames)
-
-issue=issuenames[0][0]
-
-issue_pos=issuenames[0][1]
+    return conn
 
 
-if (issue=="blm"):
-	issuetext="The public reaction to recent confrontations between police and minority crime suspects has been overblown."
-
-if issue=="sa":
-	issuetext="When a sexual assault accusation is made on a college campus, the alleged perpetrator should be immediately removed from campus to protect the well-being of the victim."
-
-if issue=="stem":
-	issuetext="In order to increase the representation of women in math, sciences and engineering, female graduates with relevant degrees should be given priority in hiring decisions over men."
-
-if issue=="isis":
-	issuetext="The United States should invest greater economic, military, and human resources in fighting the spread of ISIS and similar organizations around the world."
-
-
-position="pro"
-if (int(issue_pos)>4):
-	position="anti"
-
-# issue = "stem"
-# position = "anti"
-
-dbquery="SELECT * FROM seedTexts WHERE issue='"+issue+"' AND position='"+position+"'"
+def get_texts(issue, position):
+    conn = open_connection()
+    with conn.cursor() as cursor:
+        dbquery = "SELECT * FROM seedTexts WHERE issue='" + issue + "' AND position='" + position + "'"
+        result = cursor.execute(dbquery)
+        # Grab all eligibile texts
+        cursor.execute(dbquery)
+        sqlpull = [list(x) for x in cursor.fetchall()]
+    conn.close()
+    return sqlpull
 
 
-# Grab all eligibile texts
-cr.execute(dbquery)
-sqlpull = [list(x) for x in cr.fetchall()]
+@app.route('/', methods=['POST', 'GET'])
+def texts():
 
-random.shuffle(sqlpull)
-
-#############################################################
-# column ids... ugly, I know
-IDcol=0
-seedcol=1
-
-spit={}
-
-spit['issue']=issue
-spit['issue_pos']=issue_pos
-spit['issuetext']=issuetext
-
-for x in range(int(count)):
-	theperson=sqlpull[x]
-	spit['seedID'+str(x+1)] = theperson[IDcol]
-	spit['seedtext'+str(x+1)] = theperson[seedcol]
+    return get_texts("sa", "Pro")
 
 
-print(json.dumps(spit))
+if __name__ == '__main__':
+    app.run(debug=True)
+
+# def getconn():
+#     conn = connector.connect(
+#         INSTANCE_CONNECTION_NAME,
+#         "pymysql",
+#         user=DB_USER,
+#         password=DB_PASS,
+#         db=DB_NAME
+#     )
+#     return conn
 
 
+# # create connection pool with 'creator' argument to our connection object function
+# pool = sqlalchemy.create_engine(
+#     "mysql+pymysql://localhost",
+#     creator=getconn,
+# )
+
+# issue = "sa"
+# position = "Pro"
+# dbquery = "SELECT * FROM seedTexts WHERE issue='" + issue + "' AND position='" + position + "'"
+
+
+# with pool.connect() as db_conn:
+#     # Grab all eligibile texts
+#     # query and fetch ratings table
+#     results = db_conn.execute(dbquery).fetchall()
+
+#     # show results
+#     for row in results:
+#         print(row)
