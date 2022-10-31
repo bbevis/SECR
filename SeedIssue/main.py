@@ -22,16 +22,16 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-# db_user = os.environ.get()
-# db_password = "mapleleaf"
-# db_name = "mikeye5_runone"
-# db_connection_name = "ace-study-297421:europe-west2:yeomans-database"
+db_user = "mikeye5_my"
+db_password = "mapleleaf"
+db_name = "mikeye5_runone"
+db_connection_name = "ace-study-297421:europe-west2:yeomans-database"
 
 
-db_user = os.environ.get('CLOUD_SQL_USERNAME')
-db_password = os.environ.get('CLOUD_SQL_PASSWORD')
-db_name = os.environ.get('CLOUD_SQL_DATABASE_NAME')
-db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
+# db_user = os.environ.get('CLOUD_SQL_USERNAME')
+# db_password = os.environ.get('CLOUD_SQL_PASSWORD')
+# db_name = os.environ.get('CLOUD_SQL_DATABASE_NAME')
+# db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 
 # If deployed, use the local socket interface for accessing Cloud SQL
 unix_socket = '/cloudsql/{}'.format(db_connection_name)
