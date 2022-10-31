@@ -19,23 +19,31 @@
 import os
 import pymysql
 from flask import Flask, jsonify, request
+import mysql.connector
 
 app = Flask(__name__)
 
-db_user = "mikeye5_my"
-db_password = "mapleleaf"
-db_name = "mikeye5_runone"
-db_connection_name = "ace-study-297421:europe-west2:yeomans-database"
+# db_user = os.environ.get()
+# db_password = "mapleleaf"
+# db_name = "mikeye5_runone"
+# db_connection_name = "ace-study-297421:europe-west2:yeomans-database"
+
+
+db_user = os.environ.get('CLOUD_SQL_USERNAME')
+db_password = os.environ.get('CLOUD_SQL_PASSWORD')
+db_name = os.environ.get('CLOUD_SQL_DATABASE_NAME')
+db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
+
 unix_socket = '/cloudsql/{}'.format(db_connection_name)
 
 
 def open_connection():
 
     # try:
-    conn = pymysql.connect(user=db_user, password=db_password,
-                           unix_socket=unix_socket, db=db_name,
-                           cursorclass=pymysql.cursors.DictCursor
-                           )
+    conn = mysql.connector.connect(user=db_user, password=db_password,
+                                   unix_socket=unix_socket, db=db_name,
+                                   cursorclass=pymysql.cursors.DictCursor
+                                   )
 
     # except pymysql.MySQLError as e:
     #     print(e)
