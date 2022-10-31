@@ -42,6 +42,7 @@ def open_connection():
     # try:
     # When deployed to App Engine, the `GAE_ENV` environment variable will be
     # set to `standard`
+
     if os.environ.get('GAE_ENV') in ['standard', 'flex']:
         conn = mysql.connect(user=db_user, password=db_password,
                              unix_socket=unix_socket, db=db_name
@@ -63,6 +64,7 @@ def open_connection():
 
 
 def get_texts(issue, position):
+
     conn = open_connection()
     with conn.cursor() as cursor:
         dbquery = "SELECT * FROM seedTexts WHERE issue='" + issue + "' AND position='" + position + "'"
@@ -77,39 +79,11 @@ def get_texts(issue, position):
 @app.route('/', methods=['POST', 'GET'])
 def texts():
 
-    return get_texts("sa", "Pro")
+    issue = request.args.get('issue', None)
+    position = request.args.get('position', None)
+
+    return get_texts(issue, position)
 
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
-
-# def getconn():
-#     conn = connector.connect(
-#         INSTANCE_CONNECTION_NAME,
-#         "pymysql",
-#         user=DB_USER,
-#         password=DB_PASS,
-#         db=DB_NAME
-#     )
-#     return conn
-
-
-# # create connection pool with 'creator' argument to our connection object function
-# pool = sqlalchemy.create_engine(
-#     "mysql+pymysql://localhost",
-#     creator=getconn,
-# )
-
-# issue = "sa"
-# position = "Pro"
-# dbquery = "SELECT * FROM seedTexts WHERE issue='" + issue + "' AND position='" + position + "'"
-
-
-# with pool.connect() as db_conn:
-#     # Grab all eligibile texts
-#     # query and fetch ratings table
-#     results = db_conn.execute(dbquery).fetchall()
-
-#     # show results
-#     for row in results:
-#         print(row)
