@@ -42,7 +42,7 @@ def open_connection():
     # try:
     # When deployed to App Engine, the `GAE_ENV` environment variable will be
     # set to `standard`
-    if os.environ.get('GAE_ENV') == 'standard':
+    if os.environ.get('GAE_ENV') in ['standard', 'flex']:
         conn = mysql.connect(user=db_user, password=db_password,
                              unix_socket=unix_socket, db=db_name
                              )
