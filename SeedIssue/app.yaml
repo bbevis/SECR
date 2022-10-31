@@ -25,8 +25,4 @@ env_variables:
   CLOUD_SQL_PASSWORD: "mapleleaf"
   CLOUD_SQL_DATABASE_NAME: "mikeye5_runone"
   CLOUD_SQL_CONNECTION_NAME: "ace-study-297421:europe-west2:yeomans-database"
-  SQLALCHEMY_DATABASE_URI: >-
-    "mysql+pymysql://mikeye5_my:mapleleaf@/mikeye5_runone?unix_socket=/cloudsql/ace-study-297421:europe-west2:yeomans-database"
 
-beta_settings:
-  cloud_sql_instances: "ace-study-297421:europe-west2:yeomans-database"
