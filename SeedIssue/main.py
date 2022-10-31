@@ -44,18 +44,18 @@ def open_connection():
     # set to `standard`
 
     # if os.environ.get('GAE_ENV') in ['standard', 'flex']:
-    conn = mysql.connect(user=db_user, password=db_password,
-                         unix_socket=unix_socket, db=db_name
-                         )
+    conn = pymysql.connect(user=db_user, password=db_password,
+                           unix_socket=unix_socket, db=db_name
+                           )
     # else:
-        # If running locally, use the TCP connections instead
-        # Set up Cloud SQL Proxy (cloud.google.com/sql/docs/mysql/sql-proxy)
-        # so that your application can use 127.0.0.1:3306 to connect to your
-        # Cloud SQL instance
-        # host = '127.0.0.1'
-        # conn = pymysql.connect(user=db_user, password=db_password,
-        #                        host=host, db=db_name
-        #                        )
+    # If running locally, use the TCP connections instead
+    # Set up Cloud SQL Proxy (cloud.google.com/sql/docs/mysql/sql-proxy)
+    # so that your application can use 127.0.0.1:3306 to connect to your
+    # Cloud SQL instance
+    # host = '127.0.0.1'
+    # conn = pymysql.connect(user=db_user, password=db_password,
+    #                        host=host, db=db_name
+    #                        )
 
     # except pymysql.MySQLError as e:
     #     print(e)
@@ -86,5 +86,5 @@ def texts():
 
 
 if __name__ == '__main__':
-    # app.run(host='127.0.0.1', port=8080, debug=True)
+    # app.run(host='127.0.0.1', debug=True)
     app.run(debug=True)
