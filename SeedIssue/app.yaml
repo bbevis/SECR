@@ -1,6 +1,6 @@
 
 
-runtime: python310
+runtime: python37
 env: flex
 
 # runtime_config:
