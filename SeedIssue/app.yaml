@@ -1,28 +1,28 @@
 
 
 runtime: python37
-env: flex
+# env: flex
 
 # runtime_config:
 #   python_version: 3.7
 
-readiness_check:
-  app_start_timeout_sec: 300
+# readiness_check:
+#   app_start_timeout_sec: 300
 
-resources:
-  cpu: 1
-  memory_gb: 6
-  disk_size_gb: 10
+# resources:
+#   cpu: 1
+#   memory_gb: 6
+#   disk_size_gb: 10
 
 entrypoint: gunicorn -b :$PORT main:app
 
-automatic_scaling:
-  min_num_instances: 1
-  max_num_instances: 8
+# automatic_scaling:
+#   min_num_instances: 1
+#   max_num_instances: 8
 
-env_variables:
-  CLOUD_SQL_USERNAME: "mikeye5_my"
-  CLOUD_SQL_PASSWORD: "mapleleaf"
-  CLOUD_SQL_DATABASE_NAME: "mikeye5_runone"
-  CLOUD_SQL_CONNECTION_NAME: "ace-study-297421:europe-west2:yeomans-database"
+# env_variables:
+#   CLOUD_SQL_USERNAME: "mikeye5_my"
+#   CLOUD_SQL_PASSWORD: "mapleleaf"
+#   CLOUD_SQL_DATABASE_NAME: "mikeye5_runone"
+#   CLOUD_SQL_CONNECTION_NAME: "ace-study-297421:europe-west2:yeomans-database"
 
