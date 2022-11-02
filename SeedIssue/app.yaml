@@ -16,9 +16,9 @@ resources:
 
 entrypoint: gunicorn -b :$PORT main:app
 
-automatic_scaling:
-  min_num_instances: 1
-  max_num_instances: 8
+# automatic_scaling:
+#   min_num_instances: 1
+#   max_num_instances: 8
 
 # env_variables:
 #   CLOUD_SQL_USERNAME: "mikeye5_my"
