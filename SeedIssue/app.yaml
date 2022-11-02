@@ -1,10 +1,10 @@
 
 
-runtime: python
+runtime: python310
 env: flex
 
-runtime_config:
-  python_version: 3.7
+# runtime_config:
+#   python_version: 3.7
 
 readiness_check:
   app_start_timeout_sec: 300
