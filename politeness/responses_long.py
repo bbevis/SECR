@@ -1,25 +1,25 @@
 fancy_responses = {
     'Agreement':
     {'fancy_name': 'Agreement phrases',
-     'recog': '''<p>Although you may not agree with their viewpoint, highlighting specific areas where you do agree signals that you value their opinions.
+     'recog': '''<p>Highlight any specific areas you agree with, no matter how small. People usually have some shared values or common beliefs.
      The algorithm noticed you <b>used enough</b> agreement phrases (e.g. <q>I agree</q>, <q>you are right</q>).
      <b>Keep using these phrases</b> next time!</p>''',
-     'imp': '''<p>Although you may not agree with their viewpoint, highlighting specific areas where you do agree signals that you value their opinions.
+     'imp': '''<p>Highlight any specific areas you agree with, no matter how small. People usually have some shared values or common beliefs.
      The algorithm noticed you <b>could use more</b> agreement phrases (e.g. <q>I agree</q>, <q>you are right</q>). <b>Use more of these phrases</b> next time!</p>'''},
 
         'Positive_Emotion':
     {'fancy_name': 'Positive emotion phrases',
-     'recog': '''<p>Phrasing your arguments in a positive way makes you appear less threatening. This will induce a more positive response.
+     'recog': '''<p>Phrasing your arguments in a positive way makes you appear less contradictory. This will induce a more positive response.
      The algorithm noticed you <b>used enough</b> positive emotion words (e.g. <q>good</q>, <q>happy</q>).
      <b>Keep using these words</b> next time!</p>''',
-     'imp': '''<p>Phrasing your arguments in a positive way makes you appear less threatening. This will induce a more positive response.
+     'imp': '''<p>Phrasing your arguments in a positive way makes you appear less contradictory. This will induce a more positive response.
      The algorithm noticed you <b>could use more</b> positive emotion words (e.g. <q>good</q>, <q>happy</q>). <b>Use more of these words</b> next time!</p>'''},
 
         'Reasoning':
     {'fancy_name': 'Reasoning words',
-     'imp': '''<p>Expressions such as therefore and because can sound argumentative or condescending which may induce a more defensive tone from the other party.
+     'imp': '''<p>Avoid reciting explanations. Words such as therefore and because can sound condescending when used too many times.
      The algorithm noticed you used <b>too many</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Try to <b>decrease this</b> next time!</p>''',
-     'recog': '''<p>Expressions such as therefore and because can sound argumentative or condescending which may induce a more defensive tone from the other party.
+     'recog': '''<p>Avoid reciting explanations. Words such as therefore and because can sound condescending when used too many times.
      The algorithm noticed you <b>avoided</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Keep <b>avoiding</b> these phrases!</p>'''},
 
         'Subjectivity':
@@ -47,10 +47,10 @@ fancy_responses = {
 
         'Hedges':
     {'fancy_name': 'Hedging words',
-     'recog': '''<p>Hedging your claims signals that you are open to other points of views. In return, others will be more open to yours.
+     'recog': '''<p>Hedging your claims signals that you are less stubborn and are open to other points of views. In return, others will be more open to yours.
      The algorithm noticed you <b>used enough</b> hedging words (e.g. <q>almost</q> or <q>maybe</q>).
      <b>Keep using these words</b> next time!</p>''',
-     'imp': '''<p>Hedging your claims signals that you are open to other points of views. In return, others will be more open to yours.
+     'imp': '''<p>Hedging your claims signals that you are less stubborn and are open to other points of views. In return, others will be more open to yours.
      The algorithm noticed you <b>could use more</b> hedging words (e.g. <q>almost</q> or <q>maybe</q>). <b>Use more of these words</b> next time!</p>'''},
 
         'Second_Person':
@@ -67,9 +67,9 @@ fancy_responses = {
 
         'Disagreement':
     {'fancy_name': 'Disagreement phrases',
-     'imp': '''<p>Although you may not agree with someone, being less direct with how you express your disagreement helps to avoid confrontation.
+     'imp': '''<p>Although you may not agree with someone, focus on showing areas you do agree with rather than areas you disagree with.
      The algorithm noticed you used <b>too many</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Try to <b>decrease this</b> next time!</p>''',
-     'recog': '''<p>Although you may not agree with someone, being less direct with how you express your disagreement helps to avoid confrontation.
+     'recog': '''<p>Although you may not agree with someone, focus on showing areas you do agree with rather than areas you disagree with.
      The algorithm noticed you <b>avoided</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Keep <b>avoiding</b> these phrases!</p>'''},
 
     'Negative_Emotion':
