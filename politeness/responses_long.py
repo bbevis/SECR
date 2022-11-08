@@ -1,18 +1,18 @@
 fancy_responses = {
     'Agreement':
     {'fancy_name': 'Agreement phrases',
-     'recog': '<p>Highlight any specific areas you agree with, no matter how small. People usually have some shared values or common beliefs. The algorithm noticed you <b>used enough</b> agreement phrases (e.g. <q>I agree</q>, <q>you are right</q>). <b>Keep using these phrases</b> next time!</p>',
-     'imp': '<p>Highlight any specific areas you agree with, no matter how small. People usually have some shared values or common beliefs. The algorithm noticed you <b>could use more</b> agreement phrases (e.g. <q>I agree</q>, <q>you are right</q>). <b>Use more of these phrases</b> next time!</p>'},
+     'recog': '<p>You <b>used enough</b> agreement phrases (e.g. <q>I agree</q>, <q>you are right</q>). <b>Keep using these phrases</b> next time! Even when you passionately disagree with someone, they usually have some shared values or common ground. Highlighting areas of agreement, no matter how small or obvious, helps to build an environment of constructive debate.</p>',
+     'imp': '<p>You <b>could use more</b> agreement phrases (e.g. <q>I agree</q>, <q>you are right</q>). <b>Use more of these phrases</b> next time! Even when you passionately disagree with someone, they usually have some shared values or common ground. Highlighting areas of agreement, no matter how small or obvious, helps to build an environment of constructive debate.</p>'},
 
         'Positive_Emotion':
     {'fancy_name': 'Positive emotion phrases',
-     'recog': '<p>Phrasing your arguments in a positive way makes you appear less contradictory. This will induce a more positive response. The algorithm noticed you <b>used enough</b> positive emotion words (e.g. <q>good</q>, <q>happy</q>). <b>Keep using these words</b> next time!</p>',
-     'imp': '<p>Phrasing your arguments in a positive way makes you appear less contradictory. This will induce a more positive response. The algorithm noticed you <b>could use more</b> positive emotion words (e.g. <q>good</q>, <q>happy</q>). <b>Use more of these words</b> next time!</p>'},
+     'recog': '<p>You <b>used enough</b> positive emotion words (e.g. <q>good</q>, <q>happy</q>). <b>Keep using these words</b> next time and continue phrasing your arguments in a positive way. This will help you avoid the appearance of contradicting the beliefs of others. </p>',
+     'imp': '<p>You <b>could use more</b> positive emotion words (e.g. <q>good</q>, <q>happy</q>). <b>Use more of these words</b> next time! Phrasing your arguments in a positive way. This will help you avoid the appearance of contradicting the beliefs of others. </p>'},
 
         'Reasoning':
     {'fancy_name': 'Reasoning words',
-     'imp': '<p>Avoid reciting explanations. Words such as therefore and because can sound condescending when used too many times. The algorithm noticed you used <b>too many</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Try to <b>decrease this</b> next time!</p>',
-     'recog': '<p>Avoid reciting explanations. Words such as therefore and because can sound condescending when used too many times. The algorithm noticed you <b>avoided</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Keep <b>avoiding</b> these phrases!</p>'},
+     'imp': '<p>You used <b>too many</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Try to <b>decrease this</b> next time! Words such as <q>therefore</q> and <q>because</q> can sound condescending when used too many times.</p>',
+     'recog': '<p>You <b>avoided</b> reasoning phrases (e.g. <q>therefore</q>, <q>because</q>). Keep <b>avoiding</b> these phrases! Words such as <q>therefore</q> and <q>because</q> can sound condescending when used too many times.</p>'},
 
         'Subjectivity':
     {'fancy_name': 'Subjective phrases',
@@ -21,18 +21,18 @@ fancy_responses = {
 
         'Acknowledgement':
     {'fancy_name': 'Acknowledgement phrases',
-     'recog': '<p>Actively acknowledging that other opinions are valid, even if you do not agree with them, signals that you listen. This in turn encourages others to listen to your opinions. The algorithm noticed you <b>used enough</b> acknowledgement phrases (e.g. <q>I understand</q> or <q>I get</q>). <b>Keep using these phrases</b> next time!</p>',
-     'imp': '<p>Actively acknowledging that other opinions are valid, even if you do not agree with them, signals that you listen. This in turn encourages others to listen to your opinions. The algorithm noticed you <b>could use more</b> acknowledgement phrases (e.g. <q>I understand</q> or <q>I get</q>). <b>Use more of these phrases</b> next time!</p>'},
+     'recog': '<p>You <b>used enough</b> acknowledgement phrases (e.g. <q>I understand</q> or <q>I get</q>). <b>Keep using these phrases</b> next time! Actively acknowledging that other opinions are valid, even if you do not agree with them, signals that you listen. This in turn encourages others to listen to your opinions.</p>',
+     'imp': '<p>You <b>could use more</b> acknowledgement phrases (e.g. <q>I understand</q> or <q>I get</q>). <b>Use more of these phrases</b> next time! Actively acknowledging that other opinions are valid, even if you do not agree with them, signals that you listen. This in turn encourages others to listen to your opinions.</p>'},
 
         'Negation':
     {'fancy_name': 'Negation words',
-     'imp': '<p>Phrasing your arguments in positive terms helps avoid appearing argumentative - even if your opinions contradtict. This increases the chances of a more open response in return. The algorithm noticed you used <b>too many</b> negation words (e.g. <q>did not</q>, <q>would not</q>). Try to <b>decrease this</b> next time!</p>',
-     'recog': '<p>Phrasing your arguments in positive terms helps avoid appearing argumentative - even if your opinions contradtict. This increases the chances of a more open response in return. The algorithm noticed you <b>avoided</b> negation words (e.g. <q>did not</q>, <q>would not</q>). Keep <b>avoiding</b> these phrases!</p>'},
+     'imp': '<p>You used <b>too many</b> negation words (e.g. <q>did not</q>, <q>would not</q>). Try to <b>decrease this</b> next time! Phrasing your arguments in positive terms helps avoid appearing argumentative - even if your opinions contradtict. This increases the chances of a more open response in return.</p>',
+     'recog': '<p>You <b>avoided</b> negation words (e.g. <q>did not</q>, <q>would not</q>). Keep <b>avoiding</b> these phrases!Phrasing your arguments in positive terms helps avoid appearing argumentative - even if your opinions contradtict. This increases the chances of a more open response in return.</p>'},
 
         'Hedges':
     {'fancy_name': 'Hedging words',
-     'recog': '<p>Hedging your claims signals that you are less stubborn and are open to other points of views. In return, others will be more open to yours. The algorithm noticed you <b>used enough</b> hedging words (e.g. <q>almost</q> or <q>maybe</q>). <b>Keep using these words</b> next time!</p>',
-     'imp': '<p>Hedging your claims signals that you are less stubborn and are open to other points of views. In return, others will be more open to yours. The algorithm noticed you <b>could use more</b> hedging words (e.g. <q>almost</q> or <q>maybe</q>). <b>Use more of these words</b> next time!</p>'},
+     'recog': '<p>You <b>used enough</b> hedging words (e.g. <q>almost</q> or <q>maybe</q>). <b>Keep using these words</b> next time! Hedging your claims signals that you are open to other viewpoints. In return, others will be more open to yours.</p>',
+     'imp': '<p>You <b>could use more</b> hedging words (e.g. <q>almost</q> or <q>maybe</q>). <b>Use more of these words</b> next time! Hedging your claims signals that you are open to other viewpoints. In return, others will be more open to yours.</p>'},
 
         'Second_Person':
     {'fancy_name': 'Second person words',
@@ -41,18 +41,18 @@ fancy_responses = {
 
         'Adverb_Limiter':
     {'fancy_name': 'Words that limit a statement',
-     'imp': '<p>Words such as just and only can sound condescending when you explain your point of view. Suggesting that things are obvious makes people feel inferior. The algorithm noticed you used <b>too many</b> adverb limiters (e.g. <q>just</q>, <q>only</q>). Try to <b>decrease this</b> next time!</p>',
-     'recog': '<p>Words such as just and only can sound condescending when you explain your point of view. Suggesting that things are obvious makes people feel inferior. The algorithm noticed you <b>avoided</b> adverb limiters (e.g. <q>just</q>, <q>only</q>). Keep <b>avoiding</b> these phrases!</p>'},
+     'imp': '<p>You used <b>too many</b> adverb limiters (e.g. <q>just</q>, <q>only</q>). Try to <b>decrease this</b> next time! It is tempting to offer explanations for your opposing viewpoint but be mindful that words such as <q>just</q> and <q>only</q> can sound condescending when you explain your viewpoint. Suggesting that things are obvious makes people feel inferior.</p>',
+     'recog': '<p>You <b>avoided</b> adverb limiters (e.g. <q>just</q>, <q>only</q>). Keep <b>avoiding</b> these phrases! It is tempting to offer explanations for your opposing viewpoint but be mindful that words such as <q>just</q> and <q>only</q> can sound condescending when you explain your viewpoint. Suggesting that things are obvious makes people feel inferior.</p>'},
 
         'Disagreement':
     {'fancy_name': 'Disagreement phrases',
-     'imp': '<p>Although you may not agree with someone, focus on showing areas you do agree with rather than areas you disagree with. The algorithm noticed you used <b>too many</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Try to <b>decrease this</b> next time!</p>',
-     'recog': '<p>Although you may not agree with someone, focus on showing areas you do agree with rather than areas you disagree with. The algorithm noticed you <b>avoided</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Keep <b>avoiding</b> these phrases!</p>'},
+     'imp': '<p>You used <b>too many</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Try to <b>decrease this</b> next time! Even when you passionately disagree with someone, they usually have some shared values or common ground. Highlighting areas of agreement, no matter how small or obvious, helps to build an environment of constructive debate.</p>',
+     'recog': '<p>You <b>avoided</b> disagreement phrases (e.g. <q>I disagree</q>, <q>You are wrong</q>). Keep <b>avoiding</b> these phrases! Even when you passionately disagree with someone, they usually have some shared values or common ground. Highlighting areas of agreement, no matter how small or obvious, helps to build an environment of constructive debate.</p>'},
 
     'Negative_Emotion':
     {'fancy_name': 'Negative emotion phrases',
-     'imp': '<p>Phrases that contain negative emotions make you seem inconsiderate to other people\'s feelings and makes them less likely to want to engage with you. The algorithm noticed you used <b>too many</b> negative emotion phrases (e.g. <q>You are hopeless</q>, <q>This is not feasible</q>). Try to <b>decrease this</b> next time!</p>',
-     'recog': '<p>Phrases that contain negative emotions make you seem inconsiderate to other people\'s feelings and makes them less likely to want to engage with you. The algorithm noticed you <b>avoided</b> negative emotion phrases (e.g. <q>You are hopeless</q>, <q>This is not feasible</q>). Keep <b>avoiding</b> these phrases!</p>'}
+     'imp': '<p>You used <b>too many</b> negative emotion phrases (e.g. <q>You are hopeless</q>, <q>This is not feasible</q>). Try to <b>decrease this</b> next time! Phrases that contain negative emotions would make others less likely to want to engage with you.</p>',
+     'recog': '<p>You <b>avoided</b> negative emotion phrases (e.g. <q>You are hopeless</q>, <q>This is not feasible</q>). Keep <b>avoiding</b> these phrases! Phrases that contain negative emotions would make others less likely to want to engage with you.</p>'}
 }
 
 """
