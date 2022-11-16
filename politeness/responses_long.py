@@ -11,8 +11,8 @@ fancy_responses = {
 
         'Subjectivity':
     {'fancy_name': 'Subjective phrases',
-     'recog': '<p>You <b>have used</b> subjectivity phrases (e.g. <q>I believe</q> or <q>I think</q>). <b>Keep using these phrases</b>! Subjectivity helps you to share your perspective without contradicting others' beliefs. </p>',
-     'imp': '<p>You <b>have not used many</b> subjectivity phrases (e.g. <q>I believe</q> or <q>I think</q>). <b>Try to use more of these phrases</b>! Subjectivity helps you to share your perspective without contradicting others' beliefs. </p>'},
+     'recog': '<p>You <b>have used</b> subjectivity phrases (e.g. <q>I believe</q> or <q>I think</q>). <b>Keep using these phrases</b>! Subjectivity helps you to share your perspective without contradicting others\' beliefs. </p>',
+     'imp': '<p>You <b>have not used many</b> subjectivity phrases (e.g. <q>I believe</q> or <q>I think</q>). <b>Try to use more of these phrases</b>! Subjectivity helps you to share your perspective without contradicting others\' beliefs. </p>'},
 
         'Acknowledgement':
     {'fancy_name': 'Acknowledgement phrases',
@@ -32,8 +32,8 @@ fancy_responses = {
 
         'Adverb_Limiter':
     {'fancy_name': 'Words that limit a statement',
-     'imp': '<p>You <b>used too many</b> adverb limiters (e.g. <q>just</q>, <q>simply</q>). Try to <b>use fewer</b> It is often more constructive when people don't minimize concerns or challenges.</p>',
-     'recog': '<p>You <b>did not use many</b> adverb limiters (e.g. <q>just</q>, <q>simply</q>). <b>Keep avoiding them</b>! It is often more constructive when people don't minimize concerns or challenges.</p>'},
+     'imp': '<p>You <b>used too many</b> adverb limiters (e.g. <q>just</q>, <q>simply</q>). Try to <b>use fewer</b> It is often more constructive when people don\'t minimize concerns or challenges.</p>',
+     'recog': '<p>You <b>did not use many</b> adverb limiters (e.g. <q>just</q>, <q>simply</q>). <b>Keep avoiding them</b>! It is often more constructive when people don\'t minimize concerns or challenges.</p>'},
 
         'Disagreement':
     {'fancy_name': 'Disagreement phrases',
