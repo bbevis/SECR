@@ -20,6 +20,7 @@ test_pd.py
 app_gcs.py
 static/
 templates/
+SeedIssue/
 
 # C extensions
 *.so
