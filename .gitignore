@@ -8,6 +8,16 @@ app.py
 feat_explore.py
 nltkmodules.py
 receptiveness.py
+web_service_data.py
+style.py
+test.py
+combing_datasets.py
+charts.py
+responses.py
+sentiment.py
+sentence_comp.py
+test_pd.py
+app_gcs.py
 static/
 templates/
 

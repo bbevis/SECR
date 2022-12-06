@@ -1,0 +1,36 @@
+
+To create virtual environment, use the below command. This will generate
+a new venv folder in user/burintbevis/
+
+Change as appropriate
+
+Assuming there is a folder called venv... (create one if not)
+
+virtualenv -p python3 ~/venv/Recep
+
+To activate:
+
+cd ~/venv/Recep
+source bin/activate
+
+For Sublime Text:
+Tools > Build System > New Build System...
+
+Add the below text:
+
+{
+    "cmd": ["/Users/bb320/venv/bin/python", "$file"],
+    "file_regex": "^[ ]File \"(...?)\", line ([0-9]*)",
+    "selector": "source.activate"
+}
+
+
+Save file as pythonRecep
+
+In Sublime Text, set build system to pythonRecep
+
+To download via requirements.txt
+pip install -r requirements.txt
+
+To freeze pip:
+pip freeze > requirements.txt
