@@ -15,7 +15,7 @@ Installing and performing feature parsing on local machine
 6. Import the feature_extraction module: import feature_extraction as fe
 7. Import they receptiveness keywords: import keywords
 8. Get keywords from keywords.py: kw = keywords.kw
-9. To extract features, call the feat_counts function from the feature_extraction module: feat_counts(text, kw)
+9. To extract features, call the feat_counts function from the feature_extraction module: fe.feat_counts(text, kw)
 10. Replace text with your string
 
 Outputs
