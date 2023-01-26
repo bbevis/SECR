@@ -114,12 +114,12 @@ def normalise_scores(scores):
     return scores
 
 
-@app.route("/", methods=['GET', 'POST'])
-def extract_features():
+# @app.route("/", methods=['GET', 'POST'])
+def extract_features(text):
 
     start_time = time.process_time()
 
-    text = request.args.get('text', None)
+    # text = request.args.get('text', None)
     # ordered = request.args.get('ordered', None)
 
     scores = fe.feat_counts(text, kw)
