@@ -1,4 +1,4 @@
-System for Encouraging Conversational Receptiveness (SECR)
+<b>System for Encouraging Conversational Receptiveness (SECR)<b>
 
 This package consists of 2 main components:
 1. Feature parsing
