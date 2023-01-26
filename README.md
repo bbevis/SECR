@@ -19,6 +19,7 @@ Installing and performing feature parsing on local machine
 10. Replace text with your string
 
 Outputs
+  
 For feature extraction, a pandas dataframe of Features and feature count is returned.
 These counts have not been normalised or scaled
 
