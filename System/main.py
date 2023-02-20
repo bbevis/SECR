@@ -163,9 +163,9 @@ def extract_features():
 
 if __name__ == "__main__":
 
-    app.run(debug=True)
+    # app.run(debug=True)
 
-    # text = 'I understand your perspective and agree that I would not want to have resentment in the workplace against women, as that would further compound the issue we are looking at. I do think that it is true that women are underrepresented in STEM careers and am a believer that something should be done to address this discrepancy, even if that is not implementing a priority for women in hiring decisions. While I don\'t think that companies should explicitly hire simply because of their gender, I do think that they should be mindful of the gender gap in STEM and look to address those issues through their hiring practices.'
+    text = 'I understand your perspective and agree that I would not want to have resentment in the workplace against women, as that would further compound the issue we are looking at. I do think that it is true that women are underrepresented in STEM careers and am a believer that something should be done to address this discrepancy, even if that is not implementing a priority for women in hiring decisions. While I don\'t think that companies should explicitly hire simply because of their gender, I do think that they should be mindful of the gender gap in STEM and look to address those issues through their hiring practices.'
 
-    # feedback = extract_features(text, ordered='ranked')
-    # print(feedback)
+    feedback = extract_features(text)
+    print(feedback)

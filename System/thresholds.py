@@ -26,12 +26,16 @@ features = ['Hedges', 'Positive.Emotion', 'Negative.Emotion', 'Impersonal.Pronou
             'Affirmation', 'Adverb.Limiter', 'Conjunction.Start']
 
 
-main_features = ['Acknowledgement', 'Agreement', 'Hedges', 'Negation', 'Positive_Emotion', 'Subjectivity', 'Adverb_Limiter', 'Disagreement', 'Negative_Emotion']
+main_features = ['Acknowledgement', 'Agreement', 'Hedges', 'Negation', 'Positive.Emotion', 'Subjectivity', 'Adverb.Limiter', 'Reasoning', 'Second.Person']
 #thresholds = [0, 1, 1, 2, 3, 0, 1, 0, 1]
-thresholds = [0.0, 1.1, 1.4, 1.4, 2.9, 0.0, 0.0, 0.0, 2.9]
+# thresholds = [0.0, 1.1, 1.4, 1.4, 2.9, 0.0, 0.0, 0.0, 2.9]
+thresholds = [0.0, 1.1, 1.5, 1.6, 3.0, 0.0, 0.0, 0.0, 0.0]
 
+df = pd.read_csv('../Data/features.csv')
+df = df[~df['cond_order'].isin(['middle_1', 'middle_2'])]
 
-df = pd.read_csv('../Out/feat_new.csv')
+features.append('Token_count')
+df = df[features]
 
 df = df.div(df['Token_count'], axis=0)
 df = df * 100
@@ -64,9 +68,10 @@ def create_subplot(f, ax, feature_name, df, x_lab, y_lab, facecolor, color, font
     ax.axvline(thresholds[f], color=color, linestyle='dashed', linewidth=1)
     ax.set(xticks=range(int(min(x)), int(max(x)) + 1, 1), xlim=[- 1, max(x)])
     ax.set_title(feature_name + '\nbenchmark: '
-                 + str(thresholds[f]), size=12)
-    ax.set_xlabel(x_lab, fontsize=fontsize)
-    ax.set_ylabel(y_lab, fontsize=fontsize)
+                 + str(thresholds[f]), size=18)
+    # ax.set_xlabel(x_lab, fontsize=fontsize)
+    # ax.set_ylabel(y_lab, fontsize=fontsize)
+    ax.set_xlim(xmax = 8)
     ax.tick_params(labelsize=fontsize)
     ax.patch.set_facecolor('whitesmoke')
 
@@ -74,21 +79,24 @@ def create_subplot(f, ax, feature_name, df, x_lab, y_lab, facecolor, color, font
 def feat_dist(df, x_lab, y_lab, facecolor, color, fontsize):
 
     fig = plt.figure(figsize=(9, 10))
-    fig.suptitle('Distribution of key linguistic features per 100 words')
+    # fig.suptitle('Distribution of key linguistic features per 100 words')
 
     for f in range(len(main_features)):
         ax = fig.add_subplot(3, 3, f + 1)
         create_subplot(f, ax, main_features[f], df, x_lab, y_lab, facecolor, color, fontsize)
 
-    fig.subplots_adjust(wspace=0.5)
-    fig.subplots_adjust(hspace=0.7)
+    # fig.subplots_adjust(wspace=0.8)
+    fig.subplots_adjust(hspace=0.5)
+    # Make common axis labels
+    fig.text(0.5, 0.04, 'Features per 100 words', va='center', ha='center', fontsize=20)
+    fig.text(0.04, 0.5, 'Document frequency', va='center', ha='center', rotation='vertical', fontsize=20)
     # plt.show()
     fig.savefig('../Out/Images/All_hist2.png', dpi=300)
 
 
-feat_dist(df, 'Feature counts', 'Count of responses', 'darkgray', 'mediumvioletred', 10)
+feat_dist(df, 'Feature counts', 'Count of responses', 'darkgray', 'mediumvioletred', 18)
 
-t = get_thresholds()
-print(t)
+# t = get_thresholds()
+# print(t)
 
-feat_dist(df, 'Feature counts', 'Count of responses', 'darkgray', 'mediumvioletred', 10)
+# feat_dist(df, 'Feature counts', 'Count of responses', 'darkgray', 'mediumvioletred', 10)
